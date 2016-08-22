@@ -1,0 +1,11 @@
+{
+  "name": "SoundChat",
+  "version": "0.0.1",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "app-elements": "PolymerElements/app-elements",
+    "iron-elements": "PolymerElements/iron-elements",
+    "paper-elements": "PolymerElements/paper-elements",
+    "gold-elements": "PolymerElements/gold-elements"
+  }
+}

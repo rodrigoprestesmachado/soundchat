@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css?family=Oxygen:700|Source+Sans+Pro");
+
+app-drawer-layout {
+	margin: 0px;
+	padding: 0px;
+	min-height: 100%;
+	
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+
+app-header {
+	background-color: #4c537b;
+	color: #fff;
+}
+
+app-header paper-icon-button { -
+	-paper-icon-button-ink-color: white;
+}
+
+#inputMessage{
+	position: absolute;
+	bottom: 8px;
+    left: 8px;
+    width: 75%;
+}
+
+#buttonSend{
+	position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.content{
+	height: 430px;
+	width: 100%;
+	background-color: #fbfeff;
+	overflow: auto;
+}
+
+.inputs{
+	height: 65px;
+	width: 100%;
+	background-color: #e9f2fe;
+}
+
+.configControls{
+	border-style: dotted;
+	margin: 10px;
+	border-color: #f2f4ef;	
+}
+
+.controls{
+	border-style: dotted;
+	margin: 10px;
+	border-color: #362d8f;
+}
+
+.user{
+	position: relative;
+	border-bottom-style: dotted;
+	border-color: #f2f4ef;
+	margin: 10px;
+	margin-left: 10px;
+	height: 20px;
+}
