@@ -54,9 +54,9 @@ import edu.ifrs.soundChat.model.User;
  */
 @ServerEndpoint("/service")
 @Stateless
-public class ChatWS {
+public class SoundChatWS {
 
-	private static final Logger log = Logger.getLogger(ChatWS.class.getName() );
+	private static final Logger log = Logger.getLogger(SoundChatWS.class.getName() );
 	private static List<User> users = Collections.synchronizedList(new ArrayList<User>());
 	private static Gson gson = new Gson();
 	private int soundColor = 1;
