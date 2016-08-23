@@ -5,13 +5,5 @@
 		<class>edu.ifrs.soundChat.model.InputMessage</class>
 		<class>edu.ifrs.soundChat.model.User</class>
 		<class>edu.ifrs.soundChat.model.TextMessage</class>
-		<properties>
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
-			<property name="eclipselink.application-location" value="/Users/rodrigo/Desktop"/>
-			<property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL.sql"/>
-			<property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL.sql"/>
-			<property name="javax.persistence.schema-generation.create-database-schemas" value="true"/>
-		</properties>
 	</persistence-unit>
 </persistence>
