@@ -29,7 +29,7 @@
 	                </execution>
 	            </executions>
 	            <configuration>
-	                <file>WebContent/events.js</file>
+	                <file>WebContent/js/app.js</file>
 	                <replacements>
 	                    <replacement>
 	                        <token>localhost</token>
