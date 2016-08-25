@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2015, Rodrigo Prestes Machado
+ * Copyright 2016, Rodrigo Prestes Machado
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
  */
 Polymer({
 	is: 'sound-chat',
-	numberUsers: 0,
-	users: '',
-	messages: '',
+	localizaton: '',
+	language: "",
 	isLogin: '',
+	users: '',
+	numberUsers: 0,
+	messages: '',
 	soundConnect: 'connect',
 	soundMessage: 'sendMessage',
 	soundTyping: 'typing',
@@ -34,7 +36,7 @@ Polymer({
 	},
 
 	/**
-	 * Method to init the things
+	 * Method to init the component
 	 */
 	ready: function() {
 		this.numberUsers = 0;
@@ -44,9 +46,8 @@ Polymer({
 		this.isTyping = false;
 		this.$.soundConfig.checked = false;
 		
-		
-		
-		
+		this.language = this.getBrowserLanguage();
+		this.localizaton = this.loadLocalization();
 	},
  
 	/**
@@ -191,5 +192,36 @@ Polymer({
     		this.$.messageConfig.checked = false;
     		this.$.typingConfig.checked = false;
     	}
-    }
+    },
+    
+    /**
+	 * Verify the browser language
+	 * 
+	 * @return {String} The browser language
+	 **/
+	getBrowserLanguage: function(){
+		var language = window.navigator.userLanguage || window.navigator.language;
+		return language.toLowerCase();
+	},
+	
+    /**
+	 * Verify the browser language and returns an object with localized editor 
+	 * messages
+	 * 
+	 * @return {Object} Object with localized editor messages
+	 **/
+	loadLocalization: function() {
+		if (this.language.indexOf("en") > -1) {
+			return enUs;
+		}
+		else if (this.language.indexOf("pt") > -1) {
+			return ptBr;
+		}
+		else if (this.language.indexOf("es") > -1){
+			return esEs;
+		}
+		else{
+			return ptBr; 
+		} 
+	}
  });

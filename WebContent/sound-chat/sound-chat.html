@@ -52,9 +52,9 @@ limitations under the License.
     	<audio id="audioTyping" src="sounds/typing.ogg" preload="auto"></audio>
     
 	    <paper-dialog id="windowLogin" modal="true" opened="true" autoCloseDisabled>
-	    	<paper-input id="inputName" label="Nome"></paper-input>
+	    	<paper-input id="inputName" label="{{localizaton.labelInputLogin}}"></paper-input>
 	    	<div class="buttons">
-   				<paper-button id="buttonEnter">Entrar</paper-button>
+   				<paper-button id="buttonEnter">{{localizaton.labelButtonLogin}}</paper-button>
   			</div>	
 		</paper-dialog>
 	
@@ -65,16 +65,18 @@ limitations under the License.
 	        </app-toolbar>
 	        <template is="dom-if" if="{{isLogin}}">
         		<template id="userList" is="dom-repeat" items="{{users}}">
-        			<div class="user" id="user{{index}}">{{item.name}}</div>
+        			<div aria-live="polite" aria-relevant="additions removals">
+        				<div class="user" id="user{{index}}">{{item.name}}</div>
+        			</div>
         		</template>
         	</template>
         	<div class="controls">
 		        <div id="soundConfigArea" class="configControls">	
-	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig">Som do sistema (on/off)</paper-toggle-button>
+	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig">{{localizaton.labelSystemToggle}}</paper-toggle-button>
 		        </div>
 		        <div class="configControls">
-		           	<paper-toggle-button id="connectConfig">Som conexão (on/off):</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="Som para conexão">
+		           	<paper-toggle-button id="connectConfig">{{localizaton.labelConnectionToggle}}</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localizaton.labelConnectionMenu}}">
 						<paper-listbox class="dropdown-content" selected="0">
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -83,8 +85,8 @@ limitations under the License.
 		   			</paper-dropdown-menu>
 		    	</div>
 		        <div class="configControls">
-		           	<paper-toggle-button id="messageConfig">Som mensagens (on/off):</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="Som para mensagens">
+		           	<paper-toggle-button id="messageConfig">{{localizaton.labelMessageToggle}}</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="{{localizaton.labelMessageMenu}}">
 						<paper-listbox class="dropdown-content" selected="1" >
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -93,8 +95,8 @@ limitations under the License.
 		   			</paper-dropdown-menu>
 		    	</div>
 		    	 <div class="configControls">
-		           	<paper-toggle-button id="typingConfig">Som digitação (on/off):</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="Som para digitação">
+		           	<paper-toggle-button id="typingConfig">{{localizaton.labelTypingToggle}}</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="{{localizaton.labelTypingMenu}}">
 						<paper-listbox class="dropdown-content" selected="2" >
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -109,7 +111,7 @@ limitations under the License.
 	      	<app-header reveals >
 	      		<app-toolbar>
 	      			<paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-	      			<div main-title>Sound Chat =)</div>
+	      			<div main-title>Sound Chat</div>
 	      			<paper-icon-button id="accounts" icon="account-box" alt="person"></paper-icon-button>
 	      			<paper-badge id="accountsBadge" for="accounts" label="0"></paper-badge>
 	      		</app-toolbar>
@@ -118,7 +120,7 @@ limitations under the License.
 	      
 	      <div id="content" class="content">
 	      	  <template id="messageList" is="dom-repeat" items="{{messages}}" on-dom-change="updateScroll">
-		  	      <div id="message">
+		  	      <div id="message"  role="chat" aria-live="polite" aria-relevant="additions" aria-atomic="false">
 		  	      	{{item.user}}: {{item.message}} - {{item.time}}
 		  	      	<iron-icon icon="icons:check"></iron-icon>
 		  	      </div>
@@ -139,3 +141,8 @@ limitations under the License.
 
 <!-- Sound Chat JavaScript code -->
 <script type="text/javascript" src="sound-chat.js"></script>
+
+<!-- Localization -->
+<script type="text/javascript" src="localization/enUs.json"></script>
+<script type="text/javascript" src="localization/esEs.json"></script>
+<script type="text/javascript" src="localization/ptBr.json"></script>
