@@ -121,7 +121,7 @@ limitations under the License.
 	      <div id="content" class="content">
 	      	  <template id="messageList" is="dom-repeat" items="{{messages}}" on-dom-change="updateScroll">
 		  	      <div id="message"  role="chat">
-		  	      	<divaria-live="assertive" aria-relevant="additions" aria-atomic="false">{{item.user}}: {{item.message}} - {{item.time}}</div>
+		  	      	<div aria-live="assertive" aria-relevant="additions" aria-atomic="false">{{item.user}}: {{item.message}} - {{item.time}}</div>
 		  	      	<iron-icon icon="icons:check"></iron-icon>
 		  	      </div>
     		  </template>
