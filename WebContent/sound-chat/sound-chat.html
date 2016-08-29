@@ -47,12 +47,12 @@ limitations under the License.
 	
 	<template>
     
-    	<audio id="audioConnect" src="sounds/connect.ogg" preload="auto"></audio>
+    	<audio id="audioConnect" src="sounds/connect2.ogg" preload="auto"></audio>
     	<audio id="audioSend" src="sounds/send.ogg" preload="auto"></audio>
-    	<audio id="audioTyping" src="sounds/typing.ogg" preload="auto"></audio>
+    	<audio id="audioTyping" src="sounds/typing4.ogg" preload="auto"></audio>
     
 	    <paper-dialog id="windowLogin" modal="true" opened="true" autoCloseDisabled>
-	    	<paper-input id="inputName" label="{{localizaton.labelInputLogin}}"></paper-input>
+	    	<paper-input id="inputName" label="{{localizaton.labelInputLogin}}" tabindex="1"></paper-input>
 	    	<div class="buttons">
    				<paper-button id="buttonEnter">{{localizaton.labelButtonLogin}}</paper-button>
   			</div>	
@@ -65,18 +65,18 @@ limitations under the License.
 	        </app-toolbar>
 	        <template is="dom-if" if="{{isLogin}}">
         		<template id="userList" is="dom-repeat" items="{{users}}">
-        			<div aria-live="polite" aria-relevant="additions removals">
-        				<div class="user" id="user{{index}}">{{item.name}}</div>
+        			<div>
+        				<div class="user" id="user{{index}}" aria-live="assertive" aria-relevant="additions removals">{{item.name}}</div>
         			</div>
         		</template>
         	</template>
         	<div class="controls">
 		        <div id="soundConfigArea" class="configControls">	
-	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig">{{localizaton.labelSystemToggle}}</paper-toggle-button>
+	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig">{{localizaton.labelSystemToggle}} ({{labelSystemStatus}})</paper-toggle-button>
 		        </div>
 		        <div class="configControls">
-		           	<paper-toggle-button id="connectConfig">{{localizaton.labelConnectionToggle}}</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localizaton.labelConnectionMenu}}">
+		           	<paper-toggle-button id="connectConfig" on-change="changeLabelConnectStatus">{{localizaton.labelConnectionToggle}} ({{labelConnectStatus}})</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localizaton.labelConnectionMenu}}" >
 						<paper-listbox class="dropdown-content" selected="0">
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -85,7 +85,7 @@ limitations under the License.
 		   			</paper-dropdown-menu>
 		    	</div>
 		        <div class="configControls">
-		           	<paper-toggle-button id="messageConfig">{{localizaton.labelMessageToggle}}</paper-toggle-button>
+		           	<paper-toggle-button id="messageConfig" on-change="changeLabelMessageStatus">{{localizaton.labelMessageToggle}} ({{labelMessageStatus}})</paper-toggle-button>
 		           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="{{localizaton.labelMessageMenu}}">
 						<paper-listbox class="dropdown-content" selected="1" >
 		   					<paper-item value="connect">Connect</paper-item>
@@ -95,7 +95,7 @@ limitations under the License.
 		   			</paper-dropdown-menu>
 		    	</div>
 		    	 <div class="configControls">
-		           	<paper-toggle-button id="typingConfig">{{localizaton.labelTypingToggle}}</paper-toggle-button>
+		           	<paper-toggle-button id="typingConfig" on-change="changeLabelTypingStatus">{{localizaton.labelTypingToggle}} ({{labelTypingStatus}})</paper-toggle-button>
 		           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="{{localizaton.labelTypingMenu}}">
 						<paper-listbox class="dropdown-content" selected="2" >
 		   					<paper-item value="connect">Connect</paper-item>
@@ -120,8 +120,8 @@ limitations under the License.
 	      
 	      <div id="content" class="content">
 	      	  <template id="messageList" is="dom-repeat" items="{{messages}}" on-dom-change="updateScroll">
-		  	      <div id="message"  role="chat" aria-live="polite" aria-relevant="additions" aria-atomic="false">
-		  	      	{{item.user}}: {{item.message}} - {{item.time}}
+		  	      <div id="message"  role="chat">
+		  	      	<divaria-live="assertive" aria-relevant="additions" aria-atomic="false">{{item.user}}: {{item.message}} - {{item.time}}</div>
 		  	      	<iron-icon icon="icons:check"></iron-icon>
 		  	      </div>
     		  </template>
@@ -130,8 +130,8 @@ limitations under the License.
     		  </template>
 		  </div>
 		  <div class="inputs">
-		      <paper-input tabindex="1" id="inputMessage" on-keydown="typingEvent" ></paper-input>
-			  <paper-fab tabindex="2" id="buttonSend" icon="icons:send"></paper-fab>
+		      <paper-input tabindex="1" id="inputMessage" on-keydown="typingEvent" label="{{localizaton.labelInputMessage}}" ></paper-input>
+			  <paper-fab tabindex="2" id="buttonSend" icon="icons:send" label="{{localizaton.labelButtonSendMessage}}"></paper-fab>
 		  </div>
 		  
 		</app-drawer-layout>

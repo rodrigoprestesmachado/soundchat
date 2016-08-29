@@ -17,11 +17,13 @@
 esEs = {
     labelInputLogin: "Nombre",
     labelButtonLogin: "Entrar",
-    labelSystemToggle: "Sonido de sistema (on/off)",
-    labelConnectionToggle: "Sonido conexión (on/off):",
+    labelSystemToggle: "Sonido de sistema",
+    labelConnectionToggle: "Sonido conexión",
     labelConnectionMenu: "Sonido conexión",
-    labelMessageToggle: "Sonidos mensajes (on/off):",
+    labelMessageToggle: "Sonidos mensajes",
     labelMessageMenu: "Sonidos mensajes",
-    labelTypingToggle: "Sonidos tipificación (on/off):",
-    labelTypingMenu: "Sonidos tipificación"
+    labelTypingToggle: "Sonidos tipificación",
+    labelTypingMenu: "Sonidos tipificación",
+    labelInputMessage: "Enviar mensagem",
+    labelButtonSendMessage: "Enviar mensagem"
 };

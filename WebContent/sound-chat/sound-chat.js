@@ -44,7 +44,16 @@ Polymer({
 		this.messages = [];
 		this.isLogin = false;
 		this.isTyping = false;
-		this.$.soundConfig.checked = false;
+		
+		this.$.soundConfig.checked = true;
+		this.$.connectConfig.checked = true;
+		this.$.messageConfig.checked = true;
+		this.$.typingConfig.checked = true;
+		
+		this.labelSystemStatus = "on";
+		this.labelConnectStatus = "on";
+		this.labelMessageStatus = "on";
+		this.labelTypingStatus = "on";
 		
 		this.language = this.getBrowserLanguage();
 		this.localizaton = this.loadLocalization();
@@ -73,7 +82,12 @@ Polymer({
 		}
     },
     
-    typingEvent: function(){
+    typingEvent: function(event){
+    	if (event.keyCode === 13){
+    		this.fire("sendMessage", {message: this.$.inputMessage.value});
+    		this.$.inputMessage.value = "";
+    	}
+    	
     	this.fire("typing", {name: this.$.inputName.value});
     },
     
@@ -142,7 +156,7 @@ Polymer({
     },
     
     playAudio: function(audio, intention){
-    	if ((this.$.soundConfig.checked === false) && (this.isLogin == true) ){
+    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
     		if (this.canPlay(intention)){
     			this.gainEffect.gain.value = this.soundColor;
 				if (audio === "connect")
@@ -155,12 +169,15 @@ Polymer({
     	}
     },
     
+    /**
+     * Verify if the sound can be played
+     */
     canPlay: function(intention){
-    	if ((intention === "connect") && (this.$.connectConfig.checked === false))
+    	if ((intention === "connect") && (this.$.connectConfig.checked === true))
     		return true;
-    	else if ((intention === "sendMessage") && (this.$.messageConfig.checked === false))
+    	else if ((intention === "sendMessage") && (this.$.messageConfig.checked === true))
     		return true;
-    	else if ((intention === "typing") && (this.$.typingConfig.checked === false))
+    	else if ((intention === "typing") && (this.$.typingConfig.checked === true))
     		return true;
     	else
     		return false;
@@ -182,16 +199,56 @@ Polymer({
     },
     
     changeSystemSoundConfiguration: function(){
-    	if (this.$.soundConfig.checked === true){
-    		this.$.connectConfig.checked = true;
-    		this.$.messageConfig.checked = true;
-    		this.$.typingConfig.checked = true;
-    	}
-    	else{
+    	if (this.$.soundConfig.checked === false){
     		this.$.connectConfig.checked = false;
     		this.$.messageConfig.checked = false;
     		this.$.typingConfig.checked = false;
+    		
+    		this.labelSystemStatus = "off";
+    		this.labelConnectStatus = "off";
+    		this.labelMessageStatus = "off";
+    		this.labelTypingStatus = "off";
     	}
+    	else{
+    		this.$.connectConfig.checked = true;
+    		this.$.messageConfig.checked = true;
+    		this.$.typingConfig.checked = true;
+    		
+    		this.labelSystemStatus = "on";
+    		this.labelConnectStatus = "on";
+    		this.labelMessageStatus = "on";
+    		this.labelTypingStatus = "on";
+    	}
+    },
+    
+    /**
+     * Change the label (on) or (off) of the connection sound status 
+     */
+    changeLabelConnectStatus: function(){
+    	if (this.$.connectConfig.checked === true)
+    		this.labelConnectStatus = "on";
+    	else
+    		this.labelConnectStatus = "off"
+    },
+    
+    /**
+     * Change the label (on) or (off) of the message sound status 
+     */
+    changeLabelMessageStatus: function(){
+    	if (this.$.messageConfig.checked === true)
+    		this.labelMessageStatus = "on";
+    	else
+    		this.labelMessageStatus = "off"
+    },
+    
+    /**
+     * Change the label (on) or (off) of the typing sound status 
+     */
+    changeLabelTypingStatus: function(){
+    	if (this.$.typingConfig.checked === true)
+    		this.labelTypingStatus = "on";
+    	else
+    		this.labelTypingStatus = "off"
     },
     
     /**

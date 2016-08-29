@@ -17,11 +17,13 @@
 enUs = {
     labelInputLogin: "Name",
     labelButtonLogin: "Enter",
-    labelSystemToggle: "System sound (on/off)",
-    labelConnectionToggle: "Connection sound (on/off):",
+    labelSystemToggle: "System sound",
+    labelConnectionToggle: "Connection sound",
     labelConnectionMenu: "Connection sound",
-    labelMessageToggle: "Message sound (on/off):",
+    labelMessageToggle: "Message sound",
     labelMessageMenu: "Message sound",
-    labelTypingToggle: "Typing sound (on/off):",
-    labelTypingMenu: "Typing sound"
+    labelTypingToggle: "Typing sound",
+    labelTypingMenu: "Typing sound",
+    labelInputMessage: "Send message",
+    labelButtonSendMessage: "Send message"
 };

@@ -251,7 +251,7 @@ public class SoundChatWS {
 	 */
 	private void updateSoundColor(){
 		if (this.soundColor == 1)
-			this.soundColor = 200;
+			this.soundColor = 1;
 		else
 			this.soundColor = this.soundColor * 2;
 	}

@@ -17,11 +17,13 @@
 ptBr = {
     labelInputLogin: "Nome",
     labelButtonLogin: "Entrar",
-    labelSystemToggle: "Som do sistema (on/off)",
-    labelConnectionToggle: "Som da conexão (on/off):",
+    labelSystemToggle: "Som do sistema",
+    labelConnectionToggle: "Som da conexão",
     labelConnectionMenu: "Som da conexão",
-    labelMessageToggle: "Som da mensagem (on/off):",
+    labelMessageToggle: "Som da mensagem",
     labelMessageMenu: "Som da mensagem",
-    labelTypingToggle: "Som da digitação (on/off):",
-    labelTypingMenu: "Som da digitação"
+    labelTypingToggle: "Som da digitação",
+    labelTypingMenu: "Som da digitação",
+    labelInputMessage: "Enviar mensagem",
+    labelButtonSendMessage: "Enviar mensagem"
 };
