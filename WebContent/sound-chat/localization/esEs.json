@@ -23,6 +23,7 @@ esEs = {
     labelMessageToggle: "Sonidos mensajes",
     labelMessageMenu: "Sonidos mensajes",
     labelTypingToggle: "Sonidos tipificación",
+    labelPersonNumber: "Número de personas conectadas",
     labelTypingMenu: "Sonidos tipificación",
     labelInputMessage: "Enviar mensagem",
     labelButtonSendMessage: "Enviar mensagem"

@@ -23,6 +23,7 @@ enUs = {
     labelMessageToggle: "Message sound",
     labelMessageMenu: "Message sound",
     labelTypingToggle: "Typing sound",
+    labelPersonNumber: "Numer of connected people",
     labelTypingMenu: "Typing sound",
     labelInputMessage: "Send message",
     labelButtonSendMessage: "Send message"

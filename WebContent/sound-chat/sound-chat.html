@@ -54,7 +54,7 @@ limitations under the License.
 	    <paper-dialog id="windowLogin" modal="true" opened="true" autoCloseDisabled>
 	    	<paper-input id="inputName" label="{{localizaton.labelInputLogin}}" tabindex="1"></paper-input>
 	    	<div class="buttons">
-   				<paper-button id="buttonEnter">{{localizaton.labelButtonLogin}}</paper-button>
+   				<paper-button id="buttonEnter" tabindex="2">{{localizaton.labelButtonLogin}}</paper-button>
   			</div>	
 		</paper-dialog>
 	
@@ -65,12 +65,12 @@ limitations under the License.
 	        </app-toolbar>
 	        <template is="dom-if" if="{{isLogin}}">
         		<template id="userList" is="dom-repeat" items="{{users}}">
-        			<div>
+        			<div tabindex="6">
         				<div class="user" id="user{{index}}" aria-live="assertive" aria-relevant="additions removals">{{item.name}}</div>
         			</div>
         		</template>
         	</template>
-        	<div class="controls">
+        	<div class="controls" tabindex="7">
 		        <div id="soundConfigArea" class="configControls">	
 	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig">{{localizaton.labelSystemToggle}} ({{labelSystemStatus}})</paper-toggle-button>
 		        </div>
@@ -111,8 +111,8 @@ limitations under the License.
 	      	<app-header reveals >
 	      		<app-toolbar>
 	      			<paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-	      			<div main-title>Sound Chat</div>
-	      			<paper-icon-button id="accounts" icon="account-box" alt="person"></paper-icon-button>
+	      			<div main-title>Sound Chat v0.2</div>
+	      			<paper-icon-button id="accounts" icon="account-box" alt="{{localizaton.labelPersonNumber}}"></paper-icon-button>
 	      			<paper-badge id="accountsBadge" for="accounts" label="0"></paper-badge>
 	      		</app-toolbar>
 	        </app-header>
@@ -120,9 +120,11 @@ limitations under the License.
 	      
 	      <div id="content" class="content">
 	      	  <template id="messageList" is="dom-repeat" items="{{messages}}" on-dom-change="updateScroll">
-		  	      <div id="message"  role="chat">
-		  	      	<div aria-live="assertive" aria-relevant="additions" aria-atomic="false">{{item.user}}: {{item.message}} - {{item.time}}</div>
-		  	      	<iron-icon icon="icons:check"></iron-icon>
+		  	      <div id="message"  role="chat" tabindex="5">
+		  	      	<div aria-live="assertive" aria-relevant="additions" aria-atomic="false">
+		  	      		{{item.user}}: {{item.message}} - {{item.time}}
+		  	      		<iron-icon icon="icons:check"></iron-icon>
+		  	      	</div>
 		  	      </div>
     		  </template>
     		  <template is="dom-if" if="{{isTyping}}">
@@ -130,8 +132,8 @@ limitations under the License.
     		  </template>
 		  </div>
 		  <div class="inputs">
-		      <paper-input tabindex="1" id="inputMessage" on-keydown="typingEvent" label="{{localizaton.labelInputMessage}}" ></paper-input>
-			  <paper-fab tabindex="2" id="buttonSend" icon="icons:send" label="{{localizaton.labelButtonSendMessage}}"></paper-fab>
+		      <paper-input id="inputMessage" on-keydown="typingEvent" label="{{localizaton.labelInputMessage}}" tabindex="3" ></paper-input>
+			  <paper-fab id="buttonSend" icon="icons:send" label="{{localizaton.labelButtonSendMessage}}" tabindex="4"></paper-fab>
 		  </div>
 		  
 		</app-drawer-layout>
