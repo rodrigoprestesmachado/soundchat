@@ -65,18 +65,18 @@ Polymer({
 	loginAction: function() {
 		if (this.$.inputName.value != ""){
 			
-			var soundContext = new AudioContext();
-			this.gainEffect = soundContext.createGain();
+			//var soundContext = new AudioContext();
+			//this.gainEffect = soundContext.createGain();
 			
-			this.srcAudioConnect = soundContext.createMediaElementSource(this.$.audioConnect);
-			this.srcAudioSend = soundContext.createMediaElementSource(this.$.audioSend);
-			this.srcAudioTyping = soundContext.createMediaElementSource(this.$.audioTyping);
+			//this.srcAudioConnect = soundContext.createMediaElementSource(this.$.audioConnect);
+			//this.srcAudioSend = soundContext.createMediaElementSource(this.$.audioSend);
+			//this.srcAudioTyping = soundContext.createMediaElementSource(this.$.audioTyping);
 			
-			this.srcAudioConnect.connect(this.gainEffect);
-			this.srcAudioSend.connect(this.gainEffect);
-			this.srcAudioTyping.connect(this.gainEffect);
+			//this.srcAudioConnect.connect(this.gainEffect);
+			//this.srcAudioSend.connect(this.gainEffect);
+			//this.srcAudioTyping.connect(this.gainEffect);
 			
-			this.gainEffect.connect(soundContext.destination);
+			//this.gainEffect.connect(soundContext.destination);
 			
 			this.fire("connect", {name: this.$.inputName.value});
 		}
@@ -160,11 +160,14 @@ Polymer({
     		if (this.canPlay(intention)){
     			this.gainEffect.gain.value = this.soundColor;
 				if (audio === "connect")
-					this.srcAudioConnect.mediaElement.play();
+					//this.srcAudioConnect.mediaElement.play();
+					this.$.audioConnect.play();
     			else if (audio === "sendMessage")
-    				this.srcAudioSend.mediaElement.play();
+    				//this.srcAudioSend.mediaElement.play();
+    				this.$.audioSend.play();
         		else if (audio === "typing")
-        			this.srcAudioTyping.mediaElement.play();
+        			//this.srcAudioTyping.mediaElement.play();
+        			this.$.audioTyping.play();
     		}
     	}
     },
