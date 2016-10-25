@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="SoundChat-1">
+    <wb-module deploy-name="SoundChat">
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <property name="context-root" value="SoundChat"/>
         <property name="java-output-path" value="/SoundChat/build/classes"/>
-        <property name="component.exclusion.patterns" value="WEB-INF/lib/javax.mail-1.5.0.jar,WEB-INF/lib/activation-1.1.jar,WEB-INF/lib/javaee-api-7.0.jar,WEB-INF/lib/glassfish-embedded-all-3.2-b06.jar"/>
+        <property name="component.exclusion.patterns" value="WEB-INF/lib/javax.mail-1.5.0.jar,WEB-INF/lib/activation-1.1.jar,WEB-INF/lib/javaee-api-7.0.jar"/>
     </wb-module>
 </project-modules>

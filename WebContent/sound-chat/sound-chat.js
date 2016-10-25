@@ -158,7 +158,7 @@ Polymer({
     playAudio: function(audio, intention){
     	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
     		if (this.canPlay(intention)){
-    			this.gainEffect.gain.value = this.soundColor;
+    			//this.gainEffect.gain.value = this.soundColor;
 				if (audio === "connect")
 					//this.srcAudioConnect.mediaElement.play();
 					this.$.audioConnect.play();

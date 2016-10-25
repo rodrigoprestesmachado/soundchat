@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="SoundChat">
-		<jta-data-source>jdbc/__soundchat</jta-data-source>
+		<jta-data-source>java:/SoundChatDS</jta-data-source>
 		<class>edu.ifrs.soundChat.model.InputMessage</class>
 		<class>edu.ifrs.soundChat.model.User</class>
 		<class>edu.ifrs.soundChat.model.TextMessage</class>
 		<properties>
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
 		</properties>
 	</persistence-unit>
 </persistence>
