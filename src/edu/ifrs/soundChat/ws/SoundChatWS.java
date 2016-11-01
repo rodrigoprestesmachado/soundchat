@@ -85,12 +85,13 @@ public class SoundChatWS {
 			out.addData("message", input.getMessage().getTextMessage());
 			out.addData("user", input.getUser().getName());
 			out.addData("soundColor", String.valueOf(input.getUser().getSoundColor()));
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 			out.addData("time", sdf.format(input.getDate()));
 			returnMessage = true;
 		}
 		else if (Type.valueOf(input.getType()) == Type.TYPING) {
 			out.setType("ackTyping");
+			out.addData("user", input.getUser().getName());
 			out.addData("soundColor", String.valueOf(input.getUser().getSoundColor()));
 			out.addData("user", findUser(session).getName());
 			returnMessage = true;

@@ -26,5 +26,6 @@ enUs = {
     labelPersonNumber: "Numer of connected people",
     labelTypingMenu: "Typing sound",
     labelInputMessage: "Send message",
-    labelButtonSendMessage: "Send message"
+    labelButtonSendMessage: "Send message",
+    labelTyping: "Someone is typing..."
 };

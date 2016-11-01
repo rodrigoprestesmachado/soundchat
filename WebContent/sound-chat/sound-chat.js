@@ -86,9 +86,9 @@ Polymer({
     	if (event.keyCode === 13){
     		this.fire("sendMessage", {message: this.$.inputMessage.value});
     		this.$.inputMessage.value = "";
+    	}else{
+    		this.fire("typing", {name: this.$.inputName.value});
     	}
-    	
-    	this.fire("typing", {name: this.$.inputName.value});
     },
     
     /**
@@ -137,14 +137,15 @@ Polymer({
     		this.$.accountsBadge.label = data.size;
     	}
     	else if (data.type === 'ackSendMessage'){
-    		this.isTyping = false;
     		this.playAudio(this.soundMessage, "sendMessage");
     		this.push('messages', {"user": data.user, "message": data.message, "time": data.time});
+    		this.isTyping = false;
     	}
     	else if (data.type === 'ackTyping'){
     		if (data.user != this.$.inputName.value ) {
     			this.isTyping = true;
     			this.playAudio(this.soundTyping, "typing");
+    			this.updateScroll();
     		}
     	}
     },

@@ -26,6 +26,7 @@ limitations under the License.
 
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icons/maps-icons.html">
+<link rel="import" href="../bower_components/iron-icons/image-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 
@@ -39,7 +40,6 @@ limitations under the License.
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-
 
 <dom-module id="sound-chat">
 	
@@ -111,7 +111,7 @@ limitations under the License.
 	      	<app-header reveals >
 	      		<app-toolbar>
 	      			<paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-	      			<div main-title>Sound Chat v0.2</div>
+	      			<div main-title tabindex="-1">Sound Chat v0.2</div>
 	      			<paper-icon-button id="accounts" icon="account-box" alt="{{localizaton.labelPersonNumber}}" tabindex="-1"></paper-icon-button>
 	      			<paper-badge id="accountsBadge" for="accounts" label="0" tabindex="-1"></paper-badge>
 	      		</app-toolbar>
@@ -122,13 +122,13 @@ limitations under the License.
 	      	  <template id="messageList" is="dom-repeat" items="{{messages}}" on-dom-change="updateScroll">
 		  	      <div id="message"  role="chat" aria-live="assertive" aria-relevant="additions" aria-atomic="false" tabindex="5">
 		  	      	<div>
-		  	      		{{item.user}}: {{item.message}} - {{item.time}}
+		  	      		{{item.user}}: {{item.message}} - <time>{{item.time}}</time>
 		  	      		<iron-icon icon="icons:check"></iron-icon>
 		  	      	</div>
 		  	      </div>
     		  </template>
     		  <template is="dom-if" if="{{isTyping}}">
-    		  	<img id="imgTyping" src="img/typing.gif" />
+				{{localizaton.labelTyping}}
     		  </template>
 		  </div>
 		  <div class="inputs">

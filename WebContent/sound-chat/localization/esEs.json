@@ -26,5 +26,6 @@ esEs = {
     labelPersonNumber: "Número de personas conectadas",
     labelTypingMenu: "Sonidos tipificación",
     labelInputMessage: "Enviar mensagem",
-    labelButtonSendMessage: "Enviar mensagem"
+    labelButtonSendMessage: "Enviar mensagem",
+    labelTyping: "Alguien está escribiendo..."
 };

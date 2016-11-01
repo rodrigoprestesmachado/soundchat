@@ -26,5 +26,6 @@ ptBr = {
     labelPersonNumber: "Número de pessoas conectadas",
     labelTypingMenu: "Som da digitação",
     labelInputMessage: "Enviar mensagem",
-    labelButtonSendMessage: "Enviar mensagem"
+    labelButtonSendMessage: "Enviar mensagem",
+    labelTyping: "Alguém está digitando..."
 };
