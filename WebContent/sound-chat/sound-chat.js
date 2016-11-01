@@ -55,6 +55,11 @@ Polymer({
 		this.labelMessageStatus = "on";
 		this.labelTypingStatus = "on";
 		
+		// Load the sound
+		this.$.audioConnect.load();
+		this.$.audioSend.load();
+		this.$.audioTyping.load();
+		
 		this.language = this.getBrowserLanguage();
 		this.localizaton = this.loadLocalization();
 	},
@@ -64,20 +69,6 @@ Polymer({
 	 */
 	loginAction: function() {
 		if (this.$.inputName.value != ""){
-			
-			//var soundContext = new AudioContext();
-			//this.gainEffect = soundContext.createGain();
-			
-			//this.srcAudioConnect = soundContext.createMediaElementSource(this.$.audioConnect);
-			//this.srcAudioSend = soundContext.createMediaElementSource(this.$.audioSend);
-			//this.srcAudioTyping = soundContext.createMediaElementSource(this.$.audioTyping);
-			
-			//this.srcAudioConnect.connect(this.gainEffect);
-			//this.srcAudioSend.connect(this.gainEffect);
-			//this.srcAudioTyping.connect(this.gainEffect);
-			
-			//this.gainEffect.connect(soundContext.destination);
-			
 			this.fire("connect", {name: this.$.inputName.value});
 		}
     },
