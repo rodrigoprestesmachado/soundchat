@@ -25,7 +25,6 @@ Polymer({
 	soundConnect: 'connect',
 	soundMessage: 'sendMessage',
 	soundTyping: 'typing',
-	soundColor:'',
 	srcAudioConnect:'',
 	srcAudioSend:'',
 	srcAudioTyping:'',
@@ -55,11 +54,6 @@ Polymer({
 		this.labelMessageStatus = "on";
 		this.labelTypingStatus = "on";
 		
-		// Load the sound
-		this.$.audioConnect.load();
-		this.$.audioSend.load();
-		this.$.audioTyping.load();
-		
 		this.language = this.getBrowserLanguage();
 		this.localizaton = this.loadLocalization();
 	},
@@ -68,11 +62,21 @@ Polymer({
 	 * Method used in login action, the user must provide a name
 	 */
 	loginAction: function() {
+		//Load the sound. It's important for mobile application in IOS, because
+		//the preload is disabled
+		this.$.audioConnect.load();
+		this.$.audioSend.load();
+		this.$.audioTyping.load();
+		
 		if (this.$.inputName.value != ""){
 			this.fire("connect", {name: this.$.inputName.value});
 		}
     },
     
+    /**
+     * Sends the message typing to the server. With this message the server can 
+     * broadcast a message to to inform that someone is typing
+     */
     typingEvent: function(event){
     	if (event.keyCode === 13){
     		this.fire("sendMessage", {message: this.$.inputMessage.value});
@@ -93,16 +97,35 @@ Polymer({
     },
     
     /**
-     * Executes acknowledgement messages
+     * Method used to play a sound depending on the sound control options set by
+     * users.
+     *  
+     * @param String audio : The audio that the system wants to play. It's related
+     *    with the audios loaded on the system
+     * @param String intention : Verify the action (intention) the system wants
+     *    to play 
+     */
+    playAudio: function(audio, intention){
+    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
+    		if (this.canPlay(intention)){
+    			if (audio === "connect")
+					this.$.audioConnect.play();
+    			else if (audio === "sendMessage")
+    				this.$.audioSend.play();
+        		else if (audio === "typing")
+        			this.$.audioTyping.play();
+    		}
+    	}
+    },
+    
+    /**
+     * Executes the messages messages from the server
      */
     ack: function(strJson) {
     	// Parses the JSON message from WS service
     	var data = JSON.parse(strJson);
     	
-    	this.soundColor = data.soundColor;
-    	
     	if (data.type === 'ackConnect'){
-    		
     		// Polymer.Base splice method
     		this.splice('users', 0);
     		for (x in data.users) {
@@ -141,27 +164,13 @@ Polymer({
     	}
     },
     
+    /**
+     * This method updates the position of a new message on the page (scroll)
+     */
     updateScroll: function(){
 		if (this.$.content.scrollHeight > this.$.content.offsetHeight){
 			this.$.content.scrollTop = this.$.content.scrollHeight - this.$.content.offsetHeight;
 		}
-    },
-    
-    playAudio: function(audio, intention){
-    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
-    		if (this.canPlay(intention)){
-    			//this.gainEffect.gain.value = this.soundColor;
-				if (audio === "connect")
-					//this.srcAudioConnect.mediaElement.play();
-					this.$.audioConnect.play();
-    			else if (audio === "sendMessage")
-    				//this.srcAudioSend.mediaElement.play();
-    				this.$.audioSend.play();
-        		else if (audio === "typing")
-        			//this.srcAudioTyping.mediaElement.play();
-        			this.$.audioTyping.play();
-    		}
-    	}
     },
     
     /**
@@ -178,21 +187,9 @@ Polymer({
     		return false;
     },
     
-    selectConnectSound: function(){
-    	this.soundConnect = this.$.opstionsConnectSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundConnect, "connect" );
-    },
-    
-    selectMesssgeSound: function(){
-    	this.soundMessage = this.$.opstionsMessageSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundMessage, "sendMessage");
-    },
-    
-    selectTypingSound: function(){
-    	this.soundTyping = this.$.opstionsTypingSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundTyping, "typing");
-    },
-    
+    /**
+     * Enable and disable the system sounds
+     */
     changeSystemSoundConfiguration: function(){
     	if (this.$.soundConfig.checked === false){
     		this.$.connectConfig.checked = false;
@@ -214,6 +211,30 @@ Polymer({
     		this.labelMessageStatus = "on";
     		this.labelTypingStatus = "on";
     	}
+    },
+    
+    /**
+     * This method selects a type of sound for a type of action 
+     */
+    selectConnectSound: function(){
+    	this.soundConnect = this.$.opstionsConnectSound.selectedItem.attributes[0].value;
+    	this.playAudio(this.soundConnect, "connect" );
+    },
+    
+    /**
+     * This method selects a type of sound for a type of action 
+     */
+    selectMesssgeSound: function(){
+    	this.soundMessage = this.$.opstionsMessageSound.selectedItem.attributes[0].value;
+    	this.playAudio(this.soundMessage, "sendMessage");
+    },
+    
+    /**
+     * This method selects a type of sound for a type of action 
+     */
+    selectTypingSound: function(){
+    	this.soundTyping = this.$.opstionsTypingSound.selectedItem.attributes[0].value;
+    	this.playAudio(this.soundTyping, "typing");
     },
     
     /**
