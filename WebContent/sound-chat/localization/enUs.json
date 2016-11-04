@@ -27,5 +27,7 @@ enUs = {
     labelTypingMenu: "Typing sound",
     labelInputMessage: "Send message",
     labelButtonSendMessage: "Send message",
-    labelTyping: "Someone is typing..."
+    labelTyping: "typing ...",
+    labelTTSRoom: "people in the conversation",
+    labelTTSTyping: "typing"
 };

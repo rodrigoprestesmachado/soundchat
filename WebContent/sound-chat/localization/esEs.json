@@ -27,5 +27,7 @@ esEs = {
     labelTypingMenu: "Sonidos tipificación",
     labelInputMessage: "Enviar mensagem",
     labelButtonSendMessage: "Enviar mensagem",
-    labelTyping: "Alguien está escribiendo..."
+    labelTyping: "Escribiendo ...",
+    labelTTSRoom: "personas en la conversación",
+    labelTTSTyping: "Escribiendo"
 };

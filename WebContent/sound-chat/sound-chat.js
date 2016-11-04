@@ -54,6 +54,14 @@ Polymer({
 		this.labelMessageStatus = "on";
 		this.labelTypingStatus = "on";
 		
+		// TTS Configuration
+		this.speechMessage = new SpeechSynthesisUtterance();
+		this.speechMessage.rate = 1.5;
+		this.speechMessage.volume = 0.8;
+		
+		// Avoid 5 "someone is typing" messages
+		this.countTypingMessages = 20;
+		
 		this.language = this.getBrowserLanguage();
 		this.localizaton = this.loadLocalization();
 	},
@@ -103,17 +111,25 @@ Polymer({
      * @param String audio : The audio that the system wants to play. It's related
      *    with the audios loaded on the system
      * @param String intention : Verify the action (intention) the system wants
-     *    to play 
+     *    to play    
      */
     playAudio: function(audio, intention){
     	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
     		if (this.canPlay(intention)){
     			if (audio === "connect")
 					this.$.audioConnect.play();
-    			else if (audio === "sendMessage")
+				else if (audio === "sendMessage")
     				this.$.audioSend.play();
         		else if (audio === "typing")
         			this.$.audioTyping.play();
+        	}
+    	}
+    },
+    
+    playTTS: function(messageObject, intention){
+    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
+    		if (this.canPlay(intention)){
+    			speechSynthesis.speak(messageObject);
     		}
     	}
     },
@@ -128,10 +144,13 @@ Polymer({
     	if (data.type === 'ackConnect'){
     		// Polymer.Base splice method
     		this.splice('users', 0);
+    		
+    		var strPeople = "";
     		for (x in data.users) {
     		    var user = data.users[x];
     		    // Polymer.Base push method
     		    this.push('users', {"name": user.name});
+    		    strPeople += "   " + user.name;
     		}
     		
     		// Add stored messages
@@ -148,6 +167,13 @@ Polymer({
     		this.$.windowLogin.opened = false;
     		// Plays the earcon and update the user`s number 
     		this.playAudio(this.soundConnect, "connect");
+    		
+    		// TTS
+    		this.speechMessage.text = this.localizaton.labelTTSRoom;
+    		this.playTTS(this.speechMessage, "connect");
+    		this.speechMessage.text = strPeople;
+    		this.playTTS(this.speechMessage, "connect");
+    		
     		this.$.accountsBadge.label = data.size;
     	}
     	else if (data.type === 'ackSendMessage'){
@@ -160,6 +186,18 @@ Polymer({
     			this.isTyping = true;
     			this.playAudio(this.soundTyping, "typing");
     			this.updateScroll();
+    			
+    			if (this.countTypingMessages == 20){
+    				this.speechMessage.text = data.user + " " + this.localizaton.labelTTSTyping;
+    				this.playTTS(this.speechMessage, "typing");
+            		this.countTypingMessages--;
+    			}
+    			else{
+    				this.countTypingMessages--;
+    				if (this.countTypingMessages == -1){
+    					this.countTypingMessages = 20;
+    				}
+    			}
     		}
     	}
     },
@@ -218,7 +256,7 @@ Polymer({
      */
     selectConnectSound: function(){
     	this.soundConnect = this.$.opstionsConnectSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundConnect, "connect" );
+    	this.playAudio(this.soundConnect, "connect");
     },
     
     /**

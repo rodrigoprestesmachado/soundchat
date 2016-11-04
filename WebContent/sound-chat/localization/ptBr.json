@@ -27,5 +27,7 @@ ptBr = {
     labelTypingMenu: "Som da digitação",
     labelInputMessage: "Enviar mensagem",
     labelButtonSendMessage: "Enviar mensagem",
-    labelTyping: "Alguém está digitando..."
+    labelTyping: "Digitando ...",
+    labelTTSRoom: "pessoas na conversa",
+    labelTTSTyping: "digitando"
 };
