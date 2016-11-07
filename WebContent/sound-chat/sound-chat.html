@@ -40,6 +40,8 @@ limitations under the License.
 <link rel="import" href="../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+
 
 <dom-module id="sound-chat">
 	
@@ -111,7 +113,7 @@ limitations under the License.
 	      	<app-header reveals >
 	      		<app-toolbar>
 	      			<paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-	      			<div main-title tabindex="-1">Sound Chat v0.2</div>
+	      			<div main-title tabindex="-1">Sound Chat v0.3 (latest)</div>
 	      			<paper-icon-button id="accounts" icon="account-box" alt="{{localizaton.labelPersonNumber}}" tabindex="-1"></paper-icon-button>
 	      			<paper-badge id="accountsBadge" for="accounts" label="0" tabindex="-1"></paper-badge>
 	      		</app-toolbar>
@@ -135,6 +137,8 @@ limitations under the License.
 		      <paper-input id="inputMessage" on-keydown="typingEvent" label="{{localizaton.labelInputMessage}}" tabindex="3" ></paper-input>
 			  <paper-fab id="buttonSend" icon="icons:send" label="{{localizaton.labelButtonSendMessage}}" tabindex="4"></paper-fab>
 		  </div>
+		  
+		  <paper-toast id="ackToast" text="{{localizaton.labelLoadError}}"></paper-toast>
 		  
 		</app-drawer-layout>
   </template>

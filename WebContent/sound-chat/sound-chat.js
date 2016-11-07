@@ -57,7 +57,7 @@ Polymer({
 		// TTS Configuration
 		this.speechMessage = new SpeechSynthesisUtterance();
 		this.speechMessage.rate = 1.5;
-		this.speechMessage.volume = 0.8;
+		this.speechMessage.volume = 1.1;
 		
 		// Avoid 5 "someone is typing" messages
 		this.countTypingMessages = 20;
@@ -138,67 +138,74 @@ Polymer({
      * Executes the messages messages from the server
      */
     ack: function(strJson) {
-    	// Parses the JSON message from WS service
-    	var data = JSON.parse(strJson);
-    	
-    	if (data.type === 'ackConnect'){
-    		// Polymer.Base splice method
-    		this.splice('users', 0);
-    		
-    		var strPeople = "";
-    		for (x in data.users) {
-    		    var user = data.users[x];
-    		    // Polymer.Base push method
-    		    this.push('users', {"name": user.name});
-    		    strPeople += "   " + user.name;
-    		}
-    		
-    		// Add stored messages
-    		if ((data.messages != "") && (this.messages.length == 0)){
-				for (x in data.messages){
-					var message = data.messages[x];
-					this.push('messages', {"user": message.user, "message": message.textMessage, "time": message.time});
-				}
-	    	}
-    		
-    		// Refresh the user`s list
-    		this.isLogin = true;
-    		// Close the login window
-    		this.$.windowLogin.opened = false;
-    		// Plays the earcon and update the user`s number 
-    		this.playAudio(this.soundConnect, "connect");
-    		
-    		// TTS
-    		this.speechMessage.text = this.localizaton.labelTTSRoom;
-    		this.playTTS(this.speechMessage, "connect");
-    		this.speechMessage.text = strPeople;
-    		this.playTTS(this.speechMessage, "connect");
-    		
-    		this.$.accountsBadge.label = data.size;
-    	}
-    	else if (data.type === 'ackSendMessage'){
-    		this.playAudio(this.soundMessage, "sendMessage");
-    		this.push('messages', {"user": data.user, "message": data.message, "time": data.time});
-    		this.isTyping = false;
-    	}
-    	else if (data.type === 'ackTyping'){
-    		if (data.user != this.$.inputName.value ) {
-    			this.isTyping = true;
-    			this.playAudio(this.soundTyping, "typing");
-    			this.updateScroll();
-    			
-    			if (this.countTypingMessages == 20){
-    				this.speechMessage.text = data.user + " " + this.localizaton.labelTTSTyping;
-    				this.playTTS(this.speechMessage, "typing");
-            		this.countTypingMessages--;
-    			}
-    			else{
-    				this.countTypingMessages--;
-    				if (this.countTypingMessages == -1){
-    					this.countTypingMessages = 20;
+    	try{
+    		// Parses the JSON message from WS service
+        	var data = JSON.parse(strJson);
+        	
+        	if (data.type === 'ackConnect'){
+        		// Polymer.Base splice method
+        		this.splice('users', 0);
+        		
+        		var strPeople = "";
+        		for (x in data.users) {
+        		    var user = data.users[x];
+        		    // Polymer.Base push method
+        		    this.push('users', {"name": user.name});
+        		    strPeople += "   " + user.name;
+        		}
+        		
+        		// Add stored messages
+        		if ((data.messages != "") && (this.messages.length == 0)){
+    				for (x in data.messages){
+    					var message = data.messages[x];
+    					this.push('messages', {"user": message.user, "message": message.textMessage, "time": message.time});
     				}
-    			}
-    		}
+    	    	}
+        		
+        		// Refresh the user`s list
+        		this.isLogin = true;
+        		// Close the login window
+        		this.$.windowLogin.opened = false;
+        		// Plays the earcon and update the user`s number 
+        		this.playAudio(this.soundConnect, "connect");
+        		
+        		// TTS
+        		this.speechMessage.text = this.localizaton.labelTTSRoom;
+        		this.playTTS(this.speechMessage, "connect");
+        		this.speechMessage.text = strPeople;
+        		this.playTTS(this.speechMessage, "connect");
+        		
+        		this.$.accountsBadge.label = data.size;
+        	}
+        	else if (data.type === 'ackSendMessage'){
+        		this.playAudio(this.soundMessage, "sendMessage");
+        		this.push('messages', {"user": data.user, "message": data.message, "time": data.time});
+        		this.isTyping = false;
+        	}
+        	else if (data.type === 'ackTyping'){
+        		if (data.user != this.$.inputName.value ) {
+        			this.isTyping = true;
+        			this.playAudio(this.soundTyping, "typing");
+        			this.updateScroll();
+        			
+        			if (this.countTypingMessages == 20){
+        				this.speechMessage.text = data.user + " " + this.localizaton.labelTTSTyping;
+        				this.playTTS(this.speechMessage, "typing");
+                		this.countTypingMessages--;
+        			}
+        			else{
+        				this.countTypingMessages--;
+        				if (this.countTypingMessages == -1){
+        					this.countTypingMessages = 20;
+        				}
+        			}
+        		}
+        	}
+    	}
+    	catch(err) {
+    		this.speechMessage.text = this.localizaton.labelLoadError;
+    		speechSynthesis.speak(this.speechMessage);
+    		this.$.ackToast.open();
     	}
     },
     
