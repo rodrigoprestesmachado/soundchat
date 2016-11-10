@@ -65,15 +65,15 @@ public class SoundChatWS {
 	private EntityManager em;    
 	
 	@OnMessage
-	public void onMessage(String message, Session session) {
-		log.log(Level.INFO, "inputMessage: " + message);
+	public void onMessage(String jsonMessage, Session session) {
+		log.log(Level.INFO, "inputMessage: " + jsonMessage);
 		
-		InputMessage input = parseInputMessage(message, session);
+		InputMessage input = parseInputMessage(jsonMessage, session);
 		
 		boolean returnMessage = false;
 		OutputMessage out = new OutputMessage();
 		if (Type.valueOf(input.getType()) == Type.CONNECT) {
-			out.setType("ackConnect");
+			out.setType("ACK_CONNECT");
 			out.addData("size", String.valueOf(users.size()));
 			out.addData("soundColor", String.valueOf(input.getUser().getSoundColor()));
 			out.addData("users", gson.toJson(users));
@@ -81,7 +81,7 @@ public class SoundChatWS {
 			returnMessage = true;
 		}
 		else if (Type.valueOf(input.getType()) == Type.SEND_MESSAGE) {
-			out.setType("ackSendMessage");
+			out.setType("ACK_SEND_MESSAGE");
 			out.addData("message", input.getMessage().getTextMessage());
 			out.addData("user", input.getUser().getName());
 			out.addData("soundColor", String.valueOf(input.getUser().getSoundColor()));
@@ -90,7 +90,7 @@ public class SoundChatWS {
 			returnMessage = true;
 		}
 		else if (Type.valueOf(input.getType()) == Type.TYPING) {
-			out.setType("ackTyping");
+			out.setType("ACK_TYPING");
 			out.addData("user", input.getUser().getName());
 			out.addData("soundColor", String.valueOf(input.getUser().getSoundColor()));
 			out.addData("user", findUser(session).getName());
@@ -152,6 +152,22 @@ public class SoundChatWS {
 	}
 	
 	/**
+	 * Find the user from session
+	 * 
+	 * @param Session session : Web socket session
+	 * @return User object
+	 */
+	private User findUser(Session session){
+		User user = null;
+		for (User u : users) {
+			String idSesssion = u.getSession().getId();
+			if (idSesssion.equals(session.getId()))
+				user =  u;
+		}
+		return user;
+	}
+	
+	/**
 	 * Creates the input message object
 	 * 
 	 * @param String jsonMessage : JSON message from the client
@@ -173,7 +189,7 @@ public class SoundChatWS {
 			user = gson.fromJson(jsonMessage, User.class);
 			user.setSession(session);
 			user.setSoundColor(this.soundColor);
-			updateSoundColor();
+			//updateSoundColor();
 			
 			input.setUser(user);
 			em.persist(user);
@@ -184,6 +200,7 @@ public class SoundChatWS {
 		if (jsonMessage.toLowerCase().contains("message")){
 			TextMessage message = new TextMessage();
 			message = gson.fromJson(jsonMessage, TextMessage.class);
+			message.escapeCharacters();
 			em.persist(message);
 			input.setMessage(message);
 		}
@@ -193,22 +210,6 @@ public class SoundChatWS {
 		
 		em.persist(input);
 		return input;
-	}
-	
-	/**
-	 * Find the user from session
-	 * 
-	 * @param Session session : Web socket session
-	 * @return User object
-	 */
-	private User findUser(Session session){
-		User user = null;
-		for (User u : users) {
-			String idSesssion = u.getSession().getId();
-			if (idSesssion.equals(session.getId()))
-				user =  u;
-		}
-		return user;
 	}
 	
 	/**
@@ -250,10 +251,12 @@ public class SoundChatWS {
 	/**
 	 * Updates the sound color factor
 	 */
+	@Deprecated
 	private void updateSoundColor(){
 		if (this.soundColor == 1)
 			this.soundColor = 1;
 		else
 			this.soundColor = this.soundColor * 2;
 	}
+	
 }

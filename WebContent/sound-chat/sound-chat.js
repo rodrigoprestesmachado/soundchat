@@ -16,7 +16,7 @@
  */
 Polymer({
 	is: 'sound-chat',
-	localizaton: '',
+	localization: '',
 	language: "",
 	isLogin: '',
 	users: '',
@@ -63,7 +63,7 @@ Polymer({
 		this.countTypingMessages = 20;
 		
 		this.language = this.getBrowserLanguage();
-		this.localizaton = this.loadLocalization();
+		this.localization = this.loadLocalization();
 	},
  
 	/**
@@ -89,7 +89,8 @@ Polymer({
     	if (event.keyCode === 13){
     		this.fire("sendMessage", {message: this.$.inputMessage.value});
     		this.$.inputMessage.value = "";
-    	}else{
+    	}
+    	else{
     		this.fire("typing", {name: this.$.inputName.value});
     	}
     },
@@ -98,10 +99,20 @@ Polymer({
 	 * Method used to send a message to other users
 	 */
     sendMessageAction: function() {
-    	if (this.$.inputMessage.value != ""){ 
-	    	this.fire("sendMessage", {message: this.$.inputMessage.value});
+    	if (this.$.inputMessage.value != ""){
+    		var msg = this.escapeCharacters(this.$.inputMessage.value);
+    		this.fire("sendMessage", {message: msg });
 	    	this.$.inputMessage.value = "";
     	}
+    },
+    
+    /**
+     * Escape special characters to keep the json message in the right format  
+     */
+    escapeCharacters: function(message){
+    	message = message.replace(/"/g,"\\\"");
+		message = message.replace(/'/g,"\\\"");
+		return message;
     },
     
     /**
@@ -126,6 +137,9 @@ Polymer({
     	}
     },
     
+    /**
+     * Method used to execute text to speech  
+     */
     playTTS: function(messageObject, intention){
     	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
     		if (this.canPlay(intention)){
@@ -137,12 +151,12 @@ Polymer({
     /**
      * Executes the messages messages from the server
      */
-    ack: function(strJson) {
+    receiveMessage: function(strJson) {
     	try{
     		// Parses the JSON message from WS service
         	var data = JSON.parse(strJson);
         	
-        	if (data.type === 'ackConnect'){
+        	if (data.type === 'ACK_CONNECT'){
         		// Polymer.Base splice method
         		this.splice('users', 0);
         		
@@ -170,26 +184,26 @@ Polymer({
         		this.playAudio(this.soundConnect, "connect");
         		
         		// TTS
-        		this.speechMessage.text = this.localizaton.labelTTSRoom;
+        		this.speechMessage.text = this.localization.labelTTSRoom;
         		this.playTTS(this.speechMessage, "connect");
         		this.speechMessage.text = strPeople;
         		this.playTTS(this.speechMessage, "connect");
         		
         		this.$.accountsBadge.label = data.size;
         	}
-        	else if (data.type === 'ackSendMessage'){
+        	else if (data.type === 'ACK_SEND_MESSAGE'){
         		this.playAudio(this.soundMessage, "sendMessage");
         		this.push('messages', {"user": data.user, "message": data.message, "time": data.time});
         		this.isTyping = false;
         	}
-        	else if (data.type === 'ackTyping'){
+        	else if (data.type === 'ACK_TYPING'){
         		if (data.user != this.$.inputName.value ) {
         			this.isTyping = true;
         			this.playAudio(this.soundTyping, "typing");
         			this.updateScroll();
         			
         			if (this.countTypingMessages == 20){
-        				this.speechMessage.text = data.user + " " + this.localizaton.labelTTSTyping;
+        				this.speechMessage.text = data.user + " " + this.localization.labelTTSTyping;
         				this.playTTS(this.speechMessage, "typing");
                 		this.countTypingMessages--;
         			}
@@ -203,7 +217,7 @@ Polymer({
         	}
     	}
     	catch(err) {
-    		this.speechMessage.text = this.localizaton.labelLoadError;
+    		this.speechMessage.text = this.localization.labelLoadError;
     		speechSynthesis.speak(this.speechMessage);
     		this.$.ackToast.open();
     	}

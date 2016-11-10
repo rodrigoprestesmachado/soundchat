@@ -54,9 +54,9 @@ limitations under the License.
     	<audio id="audioTyping" src="sounds/typing4.mp3"preload="auto"></audio>
     
 	    <paper-dialog id="windowLogin" modal="true" opened="true" autoCloseDisabled>
-	    	<paper-input id="inputName" label="{{localizaton.labelInputLogin}}" tabindex="1"></paper-input>
+	    	<paper-input id="inputName" label="{{localization.labelInputLogin}}" tabindex="1"></paper-input>
 	    	<div class="buttons">
-   				<paper-button id="buttonEnter" tabindex="2">{{localizaton.labelButtonLogin}}</paper-button>
+   				<paper-button id="buttonEnter" tabindex="2">{{localization.labelButtonLogin}}</paper-button>
   			</div>	
 		</paper-dialog>
 	
@@ -74,11 +74,11 @@ limitations under the License.
         	</template>
         	<div class="controls">
 		        <div id="soundConfigArea" class="configControls">	
-	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig" tabindex="7">{{localizaton.labelSystemToggle}} ({{labelSystemStatus}})</paper-toggle-button>
+	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig" tabindex="7">{{localization.labelSystemToggle}} ({{labelSystemStatus}})</paper-toggle-button>
 		        </div>
 		        <div class="configControls">
-		           	<paper-toggle-button id="connectConfig" on-change="changeLabelConnectStatus" tabindex="8">{{localizaton.labelConnectionToggle}} ({{labelConnectStatus}})</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localizaton.labelConnectionMenu}}">
+		           	<paper-toggle-button id="connectConfig" on-change="changeLabelConnectStatus" tabindex="8">{{localization.labelConnectionToggle}} ({{labelConnectStatus}})</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localization.labelConnectionMenu}}">
 						<paper-listbox class="dropdown-content" selected="0" tabindex="9">
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -87,8 +87,8 @@ limitations under the License.
 		   			</paper-dropdown-menu>
 		    	</div>
 		        <div class="configControls">
-		           	<paper-toggle-button id="messageConfig" on-change="changeLabelMessageStatus" tabindex="10">{{localizaton.labelMessageToggle}} ({{labelMessageStatus}})</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="{{localizaton.labelMessageMenu}}">
+		           	<paper-toggle-button id="messageConfig" on-change="changeLabelMessageStatus" tabindex="10">{{localization.labelMessageToggle}} ({{labelMessageStatus}})</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="{{localization.labelMessageMenu}}">
 						<paper-listbox class="dropdown-content" selected="1" tabindex="11" >
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -97,8 +97,8 @@ limitations under the License.
 		   			</paper-dropdown-menu>
 		    	</div>
 		    	<div class="configControls">
-		           	<paper-toggle-button id="typingConfig" on-change="changeLabelTypingStatus" tabindex="12">{{localizaton.labelTypingToggle}} ({{labelTypingStatus}})</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="{{localizaton.labelTypingMenu}}">
+		           	<paper-toggle-button id="typingConfig" on-change="changeLabelTypingStatus" tabindex="12">{{localization.labelTypingToggle}} ({{labelTypingStatus}})</paper-toggle-button>
+		           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="{{localization.labelTypingMenu}}">
 						<paper-listbox class="dropdown-content" selected="2"  tabindex="13">
 		   					<paper-item value="connect">Connect</paper-item>
 		   					<paper-item value="sendMessage">Send Message</paper-item>
@@ -114,7 +114,7 @@ limitations under the License.
 	      		<app-toolbar>
 	      			<paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
 	      			<div main-title tabindex="-1">Sound Chat v0.3 (latest)</div>
-	      			<paper-icon-button id="accounts" icon="account-box" alt="{{localizaton.labelPersonNumber}}" tabindex="-1"></paper-icon-button>
+	      			<paper-icon-button id="accounts" icon="account-box" alt="{{localization.labelPersonNumber}}" tabindex="-1"></paper-icon-button>
 	      			<paper-badge id="accountsBadge" for="accounts" label="0" tabindex="-1"></paper-badge>
 	      		</app-toolbar>
 	        </app-header>
@@ -130,15 +130,15 @@ limitations under the License.
 		  	      </div>
     		  </template>
     		  <template is="dom-if" if="{{isTyping}}">
-				{{localizaton.labelTyping}}
+				{{localization.labelTyping}}
     		  </template>
 		  </div>
 		  <div class="inputs">
-		      <paper-input id="inputMessage" on-keydown="typingEvent" label="{{localizaton.labelInputMessage}}" tabindex="3" ></paper-input>
-			  <paper-fab id="buttonSend" icon="icons:send" label="{{localizaton.labelButtonSendMessage}}" tabindex="4"></paper-fab>
+		      <paper-input id="inputMessage" on-keydown="typingEvent" label="{{localization.labelInputMessage}}" tabindex="3" ></paper-input>
+			  <paper-fab id="buttonSend" icon="icons:send" label="{{localization.labelButtonSendMessage}}" tabindex="4"></paper-fab>
 		  </div>
 		  
-		  <paper-toast id="ackToast" text="{{localizaton.labelLoadError}}"></paper-toast>
+		  <paper-toast id="ackToast" text="{{localization.labelLoadError}}"></paper-toast>
 		  
 		</app-drawer-layout>
   </template>

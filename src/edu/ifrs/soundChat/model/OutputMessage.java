@@ -69,12 +69,10 @@ public class OutputMessage {
 					json.append(pair.getValue());
 				else
 					json.append("\""+ pair.getValue()+"\"");
-				
 			}
 			json.append("}");
 		}
 		return json.toString();
 	}
-	
 
 }

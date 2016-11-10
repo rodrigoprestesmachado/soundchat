@@ -51,7 +51,7 @@ app.directive('soundchatListener', ['$document','wsDocument', function($document
 		  
 		  // Register onmessage function
 		  wsDocument.registerOnMessage(function(event) {
-			  soundChat.ack(event.data);
+			  soundChat.receiveMessage(event.data);
 		  });
 		  
 		  // Connecting an user in the server

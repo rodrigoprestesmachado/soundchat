@@ -78,6 +78,8 @@ public class InputMessage {
 	 * Return the object state in JSON format
 	 */
 	public String toString(){
+		message.clearCharacters();
+		
 		StringBuilder json = new StringBuilder();
 		json.append("{");
 		json.append("\"textMessage\":");

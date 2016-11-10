@@ -40,4 +40,7 @@ public class TextMessage {
 	public void setTextMessage(String textMessage) {
 		this.textMessage = textMessage;
 	}
+	public void escapeCharacters(){
+		textMessage = textMessage.replace("\"", "\\\"");
+	}
 }
