@@ -29,6 +29,5 @@ enUs = {
     labelButtonSendMessage: "Send message",
     labelTyping: "typing ...",
     labelTTSRoom: "people in the conversation",
-    labelTTSTyping: "typing",
     labelLoadError: "Could not load data from the server"
 };

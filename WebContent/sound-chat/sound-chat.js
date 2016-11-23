@@ -96,6 +96,15 @@ Polymer({
     },
     
     /**
+     * Enable login with the user press enter/return button in login name field 
+     */
+    enterEvent: function(event){
+    	if (event.keyCode === 13){
+    		this.loginAction();
+    	}
+    },
+    
+    /**
 	 * Method used to send a message to other users
 	 */
     sendMessageAction: function() {
@@ -203,7 +212,7 @@ Polymer({
         			this.updateScroll();
         			
         			if (this.countTypingMessages == 20){
-        				this.speechMessage.text = data.user + " " + this.localization.labelTTSTyping;
+        				this.speechMessage.text = data.user;
         				this.playTTS(this.speechMessage, "typing");
                 		this.countTypingMessages--;
         			}

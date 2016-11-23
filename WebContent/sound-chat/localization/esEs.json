@@ -29,6 +29,5 @@ esEs = {
     labelButtonSendMessage: "Enviar mensagem",
     labelTyping: "Escribiendo ...",
     labelTTSRoom: "personas en la conversación",
-    labelTTSTyping: "Escribiendo",
     labelLoadError: "No se pudo cargar datos del servidor"
 };

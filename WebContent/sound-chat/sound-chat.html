@@ -54,7 +54,7 @@ limitations under the License.
     	<audio id="audioTyping" src="sounds/typing4.mp3"preload="auto"></audio>
     
 	    <paper-dialog id="windowLogin" modal="true" opened="true" autoCloseDisabled>
-	    	<paper-input id="inputName" label="{{localization.labelInputLogin}}" tabindex="1"></paper-input>
+	    	<paper-input id="inputName" on-keydown="enterEvent" label="{{localization.labelInputLogin}}" tabindex="1"></paper-input>
 	    	<div class="buttons">
    				<paper-button id="buttonEnter" tabindex="2">{{localization.labelButtonLogin}}</paper-button>
   			</div>	
