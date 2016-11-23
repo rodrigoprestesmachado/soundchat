@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2015, Rodrigo Prestes Machado
+ * Copyright 2016, Rodrigo Prestes Machado
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -126,7 +126,7 @@ public class SoundChatWS {
 		users.remove(user);
 		
 		OutputMessage out = new OutputMessage();
-		out.setType("ackConnect");
+		out.setType("ACK_CONNECT");
 		out.addData("size", String.valueOf(users.size()));
 		out.addData("users", gson.toJson(users));
 		
