@@ -43,6 +43,7 @@ import com.google.gson.Gson;
 
 import edu.ifrs.soundChat.model.InputMessage;
 import edu.ifrs.soundChat.model.OutputMessage;
+import edu.ifrs.soundChat.model.SoundColors;
 import edu.ifrs.soundChat.model.TextMessage;
 import edu.ifrs.soundChat.model.Type;
 import edu.ifrs.soundChat.model.User;
@@ -59,7 +60,7 @@ public class SoundChatWS {
 	private static final Logger log = Logger.getLogger(SoundChatWS.class.getName() );
 	private static List<User> users = Collections.synchronizedList(new ArrayList<User>());
 	private static Gson gson = new Gson();
-	private int soundColor = 1;
+	private int countSoundColor = 1;
 	
 	@PersistenceContext(unitName="SoundChat")
 	private EntityManager em;    
@@ -188,13 +189,15 @@ public class SoundChatWS {
 		else{
 			user = gson.fromJson(jsonMessage, User.class);
 			user.setSession(session);
-			user.setSoundColor(this.soundColor);
-			//updateSoundColor();
+			user.setSoundColor(genereteSoundColor());
 			
 			input.setUser(user);
 			em.persist(user);
 			users.add(user);
 		}
+		
+		// Sets a new sound color for other user
+		countSoundColor++;
 		
 		// Check if the json message contains an text message
 		if (jsonMessage.toLowerCase().contains("message")){
@@ -249,14 +252,24 @@ public class SoundChatWS {
 	}
 	
 	/**
-	 * Updates the sound color factor
+	 * Generates sound color
+	 * 
+	 * @return String : A sound color
 	 */
-	@Deprecated
-	private void updateSoundColor(){
-		if (this.soundColor == 1)
-			this.soundColor = 1;
-		else
-			this.soundColor = this.soundColor * 2;
+	private String genereteSoundColor(){
+		SoundColors effect = null;
+		switch (countSoundColor) {
+			case 1:
+				effect = SoundColors.DELAY;
+				break;
+			case 2:
+				effect = SoundColors.REVERB;
+				break;
+			default:
+				effect = SoundColors.DELAY;
+				break;
+		}
+		return effect.toString();
 	}
 	
 }

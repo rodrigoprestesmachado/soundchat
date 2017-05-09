@@ -30,7 +30,7 @@ public class User {
 	@GeneratedValue
 	private long id;
 	private String name;
-	private int soundColor;
+	private String soundColor;
 	private transient ArrayList<InputMessage> inputs;
 	private transient ArrayList<OutputMessage> outputs;
 	private transient Session session;
@@ -55,11 +55,11 @@ public class User {
 		this.name = name;
 	}
 	
-	public int getSoundColor() {
+	public String getSoundColor() {
 		return soundColor;
 	}
 
-	public void setSoundColor(int soundColor) {
+	public void setSoundColor(String soundColor) {
 		this.soundColor = soundColor;
 	}
 	
