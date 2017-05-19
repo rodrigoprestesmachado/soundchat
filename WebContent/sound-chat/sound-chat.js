@@ -16,19 +16,33 @@
  */
 Polymer({
 	is: 'sound-chat',
-	localization: '',
-	language: "",
 	isLogin: '',
 	users: '',
-	numberUsers: 0,
 	messages: '',
+	numberUsers: 0,
+	
+	// Sounds Types
 	soundConnect: 'connect',
 	soundMessage: 'sendMessage',
 	soundTyping: 'typing',
-	srcAudioConnect:'',
-	srcAudioSend:'',
-	srcAudioTyping:'',
-	gainEffect: '',
+	
+	// Web Audio API
+	audioCtx: '',
+	audioSrc: '',
+	bufferConnect: '',
+	bufferSendMessage: '',
+	bufferTyping: '',
+	
+	// Sound Colors
+	delay: '',
+	phaser: '',
+	chorus: '',
+	
+	// Localization
+	localization: '',
+	language: "",
+	
+	// GUI Events
 	listeners: {
 		'buttonEnter.tap': 'loginAction',
 		'buttonSend.tap': 'sendMessageAction'
@@ -64,21 +78,54 @@ Polymer({
 		
 		this.language = this.getBrowserLanguage();
 		this.localization = this.loadLocalization();
+		
+		// Web Audio API Load
+		audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+		
+		//Load the sound. It's important for mobile application in IOS, because
+		var audioDataBaseURL = "http://code.inf.poa.ifrs.edu.br/sounds/"
+		bufferConnect = null;
+		this.loadAudioBuffer("connect", audioDataBaseURL + "connect.mp3");
+		bufferSendMessage = null;
+		this.loadAudioBuffer("sendMessage", audioDataBaseURL + "send.mp3");
+		bufferTyping  = null;
+		this.loadAudioBuffer("typing", audioDataBaseURL + "typing.mp3");
 	},
  
 	/**
 	 * Method used in login action, the user must provide a name
 	 */
 	loginAction: function() {
-		//Load the sound. It's important for mobile application in IOS, because
-		//the preload is disabled
-		this.$.audioConnect.load();
-		this.$.audioSend.load();
-		this.$.audioTyping.load();
 		
-		if (this.$.inputName.value != ""){
+		var tuna = new Tuna(audioCtx);
+		
+		delay = new tuna.Delay({
+		    feedback: 0.45,    //0 to 1+
+		    delayTime: 150,    //1 to 10000 milliseconds
+		    wetLevel: 0.25,    //0 to 1+
+		    dryLevel: 1,       //0 to 1+
+		    cutoff: 2000,      //cutoff frequency of the built in lowpass-filter. 20 to 22050
+		    bypass: 0
+		});
+		
+		phaser = new tuna.Phaser({
+		    rate: 1.2,                     //0.01 to 8 is a decent range, but higher values are possible
+		    depth: 0.3,                    //0 to 1
+		    feedback: 0.2,                 //0 to 1+
+		    stereoPhase: 30,               //0 to 180
+		    baseModulationFrequency: 700,  //500 to 1500
+		    bypass: 0
+		});
+		
+		chorus = new tuna.Chorus({
+		    rate: 1.5,         //0.01 to 8+
+		    feedback: 0.2,     //0 to 1+
+		    delay: 0.0045,     //0 to 1
+		    bypass: 0          //the value 1 starts the effect as bypassed, 0 or 1
+		});
+		
+		if (this.$.inputName.value != "")
 			this.fire("connect", {name: this.$.inputName.value});
-		}
     },
     
     /**
@@ -125,39 +172,6 @@ Polymer({
     },
     
     /**
-     * Method used to play a sound depending on the sound control options set by
-     * users.
-     *  
-     * @param String audio : The audio that the system wants to play. It's related
-     *    with the audios loaded on the system
-     * @param String intention : Verify the action (intention) the system wants
-     *    to play    
-     */
-    playAudio: function(audio, intention){
-    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
-    		if (this.canPlay(intention)){
-    			if (audio === "connect")
-					this.$.audioConnect.play();
-				else if (audio === "sendMessage")
-    				this.$.audioSend.play();
-        		else if (audio === "typing")
-        			this.$.audioTyping.play();
-        	}
-    	}
-    },
-    
-    /**
-     * Method used to execute text to speech  
-     */
-    playTTS: function(messageObject, intention){
-    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
-    		if (this.canPlay(intention)){
-    			speechSynthesis.speak(messageObject);
-    		}
-    	}
-    },
-    
-    /**
      * Executes the messages messages from the server
      */
     receiveMessage: function(strJson) {
@@ -190,7 +204,7 @@ Polymer({
         		// Close the login window
         		this.$.windowLogin.opened = false;
         		// Plays the earcon and update the user`s number 
-        		this.playAudio(this.soundConnect, "connect");
+        		this.playSound("connect","");
         		
         		// TTS
         		this.speechMessage.text = this.localization.labelTTSRoom;
@@ -201,14 +215,14 @@ Polymer({
         		this.$.accountsBadge.label = data.size;
         	}
         	else if (data.type === 'ACK_SEND_MESSAGE'){
-        		this.playAudio(this.soundMessage, "sendMessage");
+        		this.playSound("sendMessage", data.soundColor);
         		this.push('messages', {"user": data.user, "message": data.message, "time": data.time});
         		this.isTyping = false;
         	}
         	else if (data.type === 'ACK_TYPING'){
         		if (data.user != this.$.inputName.value ) {
         			this.isTyping = true;
-        			this.playAudio(this.soundTyping, "typing");
+        			this.playSound("typing", data.soundColor);
         			this.updateScroll();
         			
         			if (this.countTypingMessages == 20){
@@ -233,15 +247,61 @@ Polymer({
     },
     
     /**
-     * This method updates the position of a new message on the page (scroll)
+     * Method used to play a sound depending on the sound control options set by
+     * users.
+     *  
+     * @param String audio : The audio that the system wants to play. It's related
+     *    with the audios loaded on the system
+     * @param String intention : Verify the action (intention) the system wants
+     *    to play    
      */
-    updateScroll: function(){
-		if (this.$.content.scrollHeight > this.$.content.offsetHeight){
-			this.$.content.scrollTop = this.$.content.scrollHeight - this.$.content.offsetHeight;
-		}
+    playSound: function(intention, color){
+    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
+    		if (this.canPlay(intention)){
+    			if (intention === "connect") {
+    				this.playColorfulSound(this.soundConnect, color);
+    			}
+				else if (intention === "sendMessage") {
+					this.playColorfulSound(this.soundMessage, color);
+				}
+    			else if (intention === "typing") {
+    				this.playColorfulSound(this.soundTyping, color);
+    			}
+        	}
+    	}
     },
     
-    /**
+    playColorfulSound: function(soundType, soundColor) {
+		
+    	// Selects the right buffer
+    	var bufferSource = audioCtx.createBufferSource();
+		if (soundType === "connect")
+			bufferSource.buffer = bufferConnect;
+		else if (soundType === "sendMessage")
+			bufferSource.buffer = bufferSendMessage;
+		else if(soundType === "typing")
+			bufferSource.buffer = bufferTyping;
+		
+		// Sound Graph
+		if (soundColor === "DELAY"){
+			bufferSource.connect(delay);
+			delay.connect(audioCtx.destination);
+		}
+		else if (soundColor === "PHASER"){
+			bufferSource.connect(phaser);
+			phaser.connect(audioCtx.destination);
+		}
+		else if (soundColor === "CHORUS"){
+			bufferSource.connect(chorus);
+			chorus.connect(audioCtx.destination);
+		}
+		else
+			bufferSource.connect(audioCtx.destination);
+		
+		bufferSource.start(0);
+	},
+	
+	/**
      * Verify if the sound can be played
      */
     canPlay: function(intention){
@@ -253,6 +313,60 @@ Polymer({
     		return true;
     	else
     		return false;
+    },
+	
+	loadAudioBuffer: function(bufferType, url){
+		var request = new XMLHttpRequest(); 
+		request.open("GET", url, true); 
+		request.responseType = 'arraybuffer';
+		request.onload = function() {
+			var audioData = request.response;
+			audioCtx.decodeAudioData(audioData, function(buffer) {
+				if (bufferType === "connect")
+					bufferConnect = buffer;
+				else if (bufferType === "sendMessage")
+					bufferSendMessage = buffer;
+				else if(bufferType === "typing")
+					bufferTyping = buffer;
+			},
+			function(e){ console.log("Error with decoding audio data" + e.err); });
+		}
+		request.send();
+	},
+	
+	/**
+     * Method used to execute text to speech  
+     */
+    playTTS: function(messageObject, intention){
+    	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
+    		if (this.canPlay(intention)){
+    			speechSynthesis.speak(messageObject);
+    		}
+    	}
+    },
+    
+    /**
+     * This method selects a type of sound for a type of action 
+     */
+    selectConnectSound: function(){
+    	this.soundConnect = this.$.opstionsConnectSound.selectedItem.attributes[0].value;
+    	this.playSound("connect", "");
+    },
+    
+    /**
+     * This method selects a type of sound for a type of action 
+     */
+    selectMesssgeSound: function(){
+    	this.soundMessage = this.$.opstionsMessageSound.selectedItem.attributes[0].value;
+    	this.playSound("sendMessage", "");
+    },
+    
+    /**
+     * This method selects a type of sound for a type of action 
+     */
+    selectTypingSound: function(){
+    	this.soundTyping = this.$.opstionsTypingSound.selectedItem.attributes[0].value;
+    	this.playSound("typing", "");
     },
     
     /**
@@ -279,30 +393,6 @@ Polymer({
     		this.labelMessageStatus = "on";
     		this.labelTypingStatus = "on";
     	}
-    },
-    
-    /**
-     * This method selects a type of sound for a type of action 
-     */
-    selectConnectSound: function(){
-    	this.soundConnect = this.$.opstionsConnectSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundConnect, "connect");
-    },
-    
-    /**
-     * This method selects a type of sound for a type of action 
-     */
-    selectMesssgeSound: function(){
-    	this.soundMessage = this.$.opstionsMessageSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundMessage, "sendMessage");
-    },
-    
-    /**
-     * This method selects a type of sound for a type of action 
-     */
-    selectTypingSound: function(){
-    	this.soundTyping = this.$.opstionsTypingSound.selectedItem.attributes[0].value;
-    	this.playAudio(this.soundTyping, "typing");
     },
     
     /**
@@ -336,6 +426,15 @@ Polymer({
     },
     
     /**
+     * This method updates the position of a new message on the page (scroll)
+     */
+    updateScroll: function(){
+		if (this.$.content.scrollHeight > this.$.content.offsetHeight){
+			this.$.content.scrollTop = this.$.content.scrollHeight - this.$.content.offsetHeight;
+		}
+    },
+    
+    /**
 	 * Verify the browser language
 	 * 
 	 * @return {String} The browser language
@@ -365,4 +464,5 @@ Polymer({
 			return ptBr; 
 		} 
 	}
+	
  });

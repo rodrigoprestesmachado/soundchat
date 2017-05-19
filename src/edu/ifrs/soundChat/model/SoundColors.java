@@ -3,10 +3,9 @@ package edu.ifrs.soundChat.model;
 public enum SoundColors {
 	DELAY,
 	REVERB,
-	FREQUENCY,
+	PHASER,
 	CHORUS,
 	TREMOLO,
-	PHASER,
 	FLANGER,
 	OVERDRIVE,
 	DISTORCION;

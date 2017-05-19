@@ -263,7 +263,10 @@ public class SoundChatWS {
 				effect = SoundColors.DELAY;
 				break;
 			case 2:
-				effect = SoundColors.REVERB;
+				effect = SoundColors.PHASER;
+				break;
+			case 3:
+				effect = SoundColors.CHORUS;
 				break;
 			default:
 				effect = SoundColors.DELAY;
