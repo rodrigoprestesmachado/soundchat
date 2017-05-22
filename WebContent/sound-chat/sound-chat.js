@@ -31,12 +31,11 @@ Polymer({
 	audioSrc: '',
 	bufferConnect: '',
 	bufferSendMessage: '',
-	bufferTyping: '',
 	
 	// Sound Colors
 	delay: '',
-	phaser: '',
-	chorus: '',
+	wahwah: '',
+	moog: '',
 	
 	// Localization
 	localization: '',
@@ -74,7 +73,7 @@ Polymer({
 		this.speechMessage.volume = 1.1;
 		
 		// Avoid 5 "someone is typing" messages
-		this.countTypingMessages = 20;
+		this.countTypingMessages = 40;
 		
 		this.language = this.getBrowserLanguage();
 		this.localization = this.loadLocalization();
@@ -87,7 +86,7 @@ Polymer({
 		bufferConnect = null;
 		this.loadAudioBuffer("connect", audioDataBaseURL + "connect.mp3");
 		bufferSendMessage = null;
-		this.loadAudioBuffer("sendMessage", audioDataBaseURL + "send.mp3");
+		this.loadAudioBuffer("sendMessage", audioDataBaseURL + "send4.mp3");
 		bufferTyping  = null;
 		this.loadAudioBuffer("typing", audioDataBaseURL + "typing.mp3");
 	},
@@ -97,31 +96,31 @@ Polymer({
 	 */
 	loginAction: function() {
 		
+		// Sound Effects
 		var tuna = new Tuna(audioCtx);
-		
 		delay = new tuna.Delay({
-		    feedback: 0.45,    //0 to 1+
-		    delayTime: 150,    //1 to 10000 milliseconds
-		    wetLevel: 0.25,    //0 to 1+
-		    dryLevel: 1,       //0 to 1+
-		    cutoff: 2000,      //cutoff frequency of the built in lowpass-filter. 20 to 22050
+		    feedback: 0.6,    //0 to 1+
+		    delayTime: 100,   //1 to 10000 milliseconds
+		    wetLevel: 0.8,    //0 to 1+
+		    dryLevel: 1,      //0 to 1+
+		    cutoff: 2000,     //cutoff frequency of the built in lowpass-filter. 20 to 22050
 		    bypass: 0
 		});
 		
-		phaser = new tuna.Phaser({
-		    rate: 1.2,                     //0.01 to 8 is a decent range, but higher values are possible
-		    depth: 0.3,                    //0 to 1
-		    feedback: 0.2,                 //0 to 1+
-		    stereoPhase: 30,               //0 to 180
-		    baseModulationFrequency: 700,  //500 to 1500
+		wahwah = new tuna.WahWah({
+		    automode: true,                //true/false
+		    baseFrequency: 0.5,            //0 to 1
+		    excursionOctaves: 2,           //1 to 6
+		    sweep: 0.2,                    //0 to 1
+		    resonance: 10,                 //1 to 100
+		    sensitivity: 0.8,              //-1 to 1
 		    bypass: 0
 		});
 		
-		chorus = new tuna.Chorus({
-		    rate: 1.5,         //0.01 to 8+
-		    feedback: 0.2,     //0 to 1+
-		    delay: 0.0045,     //0 to 1
-		    bypass: 0          //the value 1 starts the effect as bypassed, 0 or 1
+		moog = new tuna.MoogFilter({
+		    cutoff: 0.4,    //0 to 1
+		    resonance: 3,   //0 to 4
+		    bufferSize: 4096  //256 to 16384
 		});
 		
 		if (this.$.inputName.value != "")
@@ -222,18 +221,25 @@ Polymer({
         	else if (data.type === 'ACK_TYPING'){
         		if (data.user != this.$.inputName.value ) {
         			this.isTyping = true;
-        			this.playSound("typing", data.soundColor);
         			this.updateScroll();
         			
-        			if (this.countTypingMessages == 20){
-        				this.speechMessage.text = data.user;
+        			if (this.countTypingMessages == 15){
+        				this.playSound("typing", data.soundColor);
         				this.playTTS(this.speechMessage, "typing");
-                		this.countTypingMessages--;
+        			}
+        			else if (this.countTypingMessages == 30){
+        				this.playSound("typing", data.soundColor);
+        			}
+        			
+        			if (this.countTypingMessages == 40){
+        				this.speechMessage.text = data.user;
+        				this.playSound("typing", data.soundColor);
+        				this.countTypingMessages--;
         			}
         			else{
         				this.countTypingMessages--;
         				if (this.countTypingMessages == -1){
-        					this.countTypingMessages = 20;
+        					this.countTypingMessages = 40;
         				}
         			}
         		}
@@ -283,22 +289,29 @@ Polymer({
 			bufferSource.buffer = bufferTyping;
 		
 		// Sound Graph
-		if (soundColor === "DELAY"){
+		if (soundColor === "NOCOLOR"){
+			bufferSource.connect(audioCtx.destination);
+		}
+		else if (soundColor === "DELAY"){
 			bufferSource.connect(delay);
 			delay.connect(audioCtx.destination);
 		}
-		else if (soundColor === "PHASER"){
-			bufferSource.connect(phaser);
-			phaser.connect(audioCtx.destination);
+		else if (soundColor === "WAHWAH"){
+			bufferSource.connect(wahwah);
+			wahwah.connect(audioCtx.destination);
 		}
-		else if (soundColor === "CHORUS"){
-			bufferSource.connect(chorus);
-			chorus.connect(audioCtx.destination);
+		else if (soundColor === "MOOG"){
+			var gain = audioCtx.createGain();
+			gain.gain.value = 6;
+			bufferSource.connect(gain);
+			gain.connect(moog);
+			moog.connect(audioCtx.destination);
 		}
 		else
 			bufferSource.connect(audioCtx.destination);
 		
-		bufferSource.start(0);
+		// Plays the sound
+		bufferSource.start();
 	},
 	
 	/**

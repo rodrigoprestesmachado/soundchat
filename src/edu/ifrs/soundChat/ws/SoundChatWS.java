@@ -260,16 +260,16 @@ public class SoundChatWS {
 		SoundColors effect = null;
 		switch (countSoundColor) {
 			case 1:
-				effect = SoundColors.DELAY;
+				effect = SoundColors.NOCOLOR;
 				break;
 			case 2:
-				effect = SoundColors.PHASER;
+				effect = SoundColors.DELAY;
 				break;
 			case 3:
-				effect = SoundColors.CHORUS;
+				effect = SoundColors.WAHWAH;
 				break;
 			default:
-				effect = SoundColors.DELAY;
+				effect = SoundColors.MOOG;
 				break;
 		}
 		return effect.toString();
