@@ -82,7 +82,7 @@ Polymer({
 		audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 		
 		//Load the sound. It's important for mobile application in IOS, because
-		var audioDataBaseURL = "http://code.inf.poa.ifrs.edu.br/sounds/"
+		var audioDataBaseURL = "http://code.inf.poa.ifrs.edu.br:8080/SoundChat/sound-chat/sounds/"
 		bufferConnect = null;
 		this.loadAudioBuffer("connect", audioDataBaseURL + "connect.mp3");
 		bufferSendMessage = null;

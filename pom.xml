@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.ifrs.soundChat</groupId>
 	<artifactId>SoundChat</artifactId>
-	<version>0.3</version>
+	<version>0.3.1</version>
 	<name>SoundChat</name>
 	<description>SoundChat</description>
 	<packaging>war</packaging>

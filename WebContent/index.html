@@ -16,27 +16,30 @@ limitations under the License.
 <!DOCTYPE html>
 <html ng-app="SoundChatApp">
     <head>
-        
         <meta charset="UTF-8">
         <title>
-			Sound Chat
+			Sound Chat 0.3.1
 		</title>
-        
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-        
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script type="text/javascript" src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
         <link rel="import" href="sound-chat/sound-chat.html">
-       
-        
     </head>
 
 	<body  touch-action="auto">
 	
+		<p id="spinner">Loading ...</p>
+	
 		<sound-chat soundchat-listener>
 		</sound-chat>
 		
-		 <!-- Import AngularJS -->
+		<script type="text/javascript">
+	       window.addEventListener('WebComponentsReady', function() {
+		       document.querySelector('#spinner').style.visibility = "hidden";
+	       }
+	   	</script>
+		
+		<!-- Import AngularJS -->
         <script src="bower_components/angular/angular.js"></script>
         
 	 	<!-- JS Application -->
