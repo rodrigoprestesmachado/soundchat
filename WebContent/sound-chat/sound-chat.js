@@ -183,11 +183,13 @@ Polymer({
         		this.splice('users', 0);
         		
         		var strPeople = "";
+        		var numberPeople = 0;
         		for (x in data.users) {
         		    var user = data.users[x];
         		    // Polymer.Base push method
         		    this.push('users', {"name": user.name});
         		    strPeople += "   " + user.name;
+        		    numberPeople = numberPeople + 1;
         		}
         		
         		// Add stored messages
@@ -206,7 +208,7 @@ Polymer({
         		this.playSound("connect","");
         		
         		// TTS
-        		this.speechMessage.text = this.localization.labelTTSRoom;
+        		this.speechMessage.text = numberPeople + " " + this.localization.labelTTSRoom;
         		this.playTTS(this.speechMessage, "connect");
         		this.speechMessage.text = strPeople;
         		this.playTTS(this.speechMessage, "connect");

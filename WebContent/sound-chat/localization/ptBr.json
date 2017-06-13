@@ -28,6 +28,6 @@ ptBr = {
     labelInputMessage: "Enviar mensagem",
     labelButtonSendMessage: "Enviar mensagem",
     labelTyping: "Digitando ...",
-    labelTTSRoom: "pessoas na conversa",
+    labelTTSRoom: "participantes",
     labelLoadError: "Não foi possível carregar dados do servidor"
 };

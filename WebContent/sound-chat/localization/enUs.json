@@ -28,6 +28,6 @@ enUs = {
     labelInputMessage: "Send message",
     labelButtonSendMessage: "Send message",
     labelTyping: "typing ...",
-    labelTTSRoom: "people in the conversation",
+    labelTTSRoom: "participants",
     labelLoadError: "Could not load data from the server"
 };
