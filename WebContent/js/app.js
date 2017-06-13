@@ -53,7 +53,6 @@ app.directive('soundchatListener', ['$document','wsDocument', function($document
 		  wsDocument.registerOnMessage(function(event) {
 			  soundChat.receiveMessage(event.data);
 		  });
-		  
 		  // Connecting an user in the server
 		  soundChat.addEventListener("connect", function(e) {
 			  wsDocument.send("{'type':'CONNECT','name':'"+e.detail.name+"'}");
@@ -62,11 +61,12 @@ app.directive('soundchatListener', ['$document','wsDocument', function($document
 		  soundChat.addEventListener("sendMessage", function(e) {
 			  wsDocument.send("{'type':'SEND_MESSAGE','textMessage':'"+e.detail.message+"'}");
 		  });
-		  
 		  soundChat.addEventListener("typing", function(e) {
 			  wsDocument.send("{'type':'TYPING','name':'"+e.detail.name+"'}");
 		  });
-		  
+		  soundChat.addEventListener("setSoundColor", function(e) {
+			  wsDocument.send("{'type':'SET_SOUND_COLOR','textMessage':'"+e.detail.message+"'}");
+		  });
 	  }
   };
 }]);

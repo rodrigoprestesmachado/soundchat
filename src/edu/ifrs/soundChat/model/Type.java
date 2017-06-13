@@ -19,5 +19,6 @@ package edu.ifrs.soundChat.model;
 public enum Type {
 	CONNECT,
 	SEND_MESSAGE,
-	TYPING;
+	TYPING, 
+	SET_SOUND_COLOR;
 }

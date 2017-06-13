@@ -72,8 +72,7 @@ Polymer({
 		this.speechMessage.rate = 1.5;
 		this.speechMessage.volume = 1.1;
 		
-		// Avoid 5 "someone is typing" messages
-		this.countTypingMessages = 40;
+		this.countTypingMessages = 50;
 		
 		this.language = this.getBrowserLanguage();
 		this.localization = this.loadLocalization();
@@ -133,7 +132,7 @@ Polymer({
      */
     typingEvent: function(event){
     	if (event.keyCode === 13){
-    		this.fire("sendMessage", {message: this.$.inputMessage.value});
+    		this.sendMessageAction();
     		this.$.inputMessage.value = "";
     	}
     	else{
@@ -156,7 +155,11 @@ Polymer({
     sendMessageAction: function() {
     	if (this.$.inputMessage.value != ""){
     		var msg = this.escapeCharacters(this.$.inputMessage.value);
-    		this.fire("sendMessage", {message: msg });
+    		if (msg.indexOf("SET_SOUND_COLOR") !== -1)
+    			this.fire("setSoundColor", {message: msg.substr(msg.length - 1)});
+    		else
+    			this.fire("sendMessage", {message: msg });
+    		
 	    	this.$.inputMessage.value = "";
     	}
     },
@@ -209,14 +212,20 @@ Polymer({
         		
         		// TTS
         		this.speechMessage.text = numberPeople + " " + this.localization.labelTTSRoom;
-        		this.playTTS(this.speechMessage, "connect");
+        		this.playTTS("connect", this.speechMessage);
         		this.speechMessage.text = strPeople;
-        		this.playTTS(this.speechMessage, "connect");
+        		this.playTTS("connect", this.speechMessage);
         		
         		this.$.accountsBadge.label = data.size;
         	}
         	else if (data.type === 'ACK_SEND_MESSAGE'){
         		this.playSound("sendMessage", data.soundColor);
+        		
+        		if (data.user != this.$.inputName.value ){
+        			this.speechMessage.text = data.user;
+        			this.playTTS("sendMessage", this.speechMessage);
+        		}
+
         		this.push('messages', {"user": data.user, "message": data.message, "time": data.time});
         		this.isTyping = false;
         	}
@@ -225,15 +234,14 @@ Polymer({
         			this.isTyping = true;
         			this.updateScroll();
         			
-        			if (this.countTypingMessages == 15){
+        			if (this.countTypingMessages == 16){
         				this.playSound("typing", data.soundColor);
-        				this.playTTS(this.speechMessage, "typing");
+        				//this.playTTS("typing", this.speechMessage);
         			}
-        			else if (this.countTypingMessages == 30){
+        			else if (this.countTypingMessages == 32)
         				this.playSound("typing", data.soundColor);
-        			}
         			
-        			if (this.countTypingMessages == 40){
+        			if (this.countTypingMessages == 50){
         				this.speechMessage.text = data.user;
         				this.playSound("typing", data.soundColor);
         				this.countTypingMessages--;
@@ -241,7 +249,7 @@ Polymer({
         			else{
         				this.countTypingMessages--;
         				if (this.countTypingMessages == -1){
-        					this.countTypingMessages = 40;
+        					this.countTypingMessages = 50;
         				}
         			}
         		}
@@ -352,7 +360,7 @@ Polymer({
 	/**
      * Method used to execute text to speech  
      */
-    playTTS: function(messageObject, intention){
+    playTTS: function(intention, messageObject){
     	if ((this.$.soundConfig.checked === true) && (this.isLogin == true) ){
     		if (this.canPlay(intention)){
     			speechSynthesis.speak(messageObject);
