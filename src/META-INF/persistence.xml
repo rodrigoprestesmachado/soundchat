@@ -2,9 +2,9 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="SoundChat">
 		<jta-data-source>java:/SoundChatDS</jta-data-source>
-		<class>edu.ifrs.soundChat.model.InputMessage</class>
-		<class>edu.ifrs.soundChat.model.User</class>
-		<class>edu.ifrs.soundChat.model.TextMessage</class>
+		<class>edu.ifrs.soundchat.model.InputMessage</class>
+		<class>edu.ifrs.soundchat.model.User</class>
+		<class>edu.ifrs.soundchat.model.TextMessage</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
 		</properties>
