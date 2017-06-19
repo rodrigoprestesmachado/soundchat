@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 public class OutputMessage {
 
 	private String type;
-	HashMap<String, String> map;
+	private HashMap<String, String> map;
 
 	public OutputMessage(){
 		map = new HashMap<String, String>();
