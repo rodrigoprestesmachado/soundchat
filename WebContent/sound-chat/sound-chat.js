@@ -19,7 +19,6 @@ Polymer({
 	isLogin: '',
 	users: '',
 	messages: '',
-	numberUsers: 0,
 	
 	// Sounds Types
 	soundConnect: 'connect',
@@ -51,7 +50,6 @@ Polymer({
 	 * Method to init the component
 	 */
 	ready: function() {
-		this.numberUsers = 0;
 		this.users = [];
 		this.messages = [];
 		this.isLogin = false;
@@ -211,7 +209,12 @@ Polymer({
         		this.playSound("connect","");
         		
         		// TTS
-        		this.speechMessage.text = numberPeople + " " + this.localization.labelTTSRoom;
+        		if (numberPeople === 1){
+        			var userMessage = this.localization.labelTTSRoom;
+        			this.speechMessage.text = numberPeople + " " + userMessage.substring(0, userMessage.length - 1);
+        		}
+        		else
+        			this.speechMessage.text = numberPeople + " " + this.localization.labelTTSRoom;
         		this.playTTS("connect", this.speechMessage);
         		this.speechMessage.text = strPeople;
         		this.playTTS("connect", this.speechMessage);
