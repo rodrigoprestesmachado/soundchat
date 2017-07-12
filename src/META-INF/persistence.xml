@@ -7,6 +7,8 @@
 		<class>edu.ifrs.soundchat.model.TextMessage</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="javax.persistence.schema-generation.database.action" value="none"/>
+			<property name="javax.persistence.schema-generation.scripts.action" value="none"/>
 		</properties>
 	</persistence-unit>
 </persistence>
