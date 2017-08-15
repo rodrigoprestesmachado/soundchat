@@ -101,6 +101,9 @@ public class SoundChatWS {
 			this.countSoundColor = Integer.valueOf(input.getMessage().getTextMessage());
 			returnMessage = false;
 		}
+		else{
+			returnMessage = false;
+		}
 		
 		if (returnMessage){
 			findUser(session).addOutputMessage(out);

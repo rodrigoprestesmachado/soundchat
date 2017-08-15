@@ -62,44 +62,46 @@ limitations under the License.
 	        </app-toolbar>
 	        <template is="dom-if" if="{{isLogin}}">
         		<template id="userList" is="dom-repeat" items="{{users}}">
-        			<div tabindex="6" aria-live="assertive" aria-relevant="additions removals">
-        				<iron-label class="user" id="user{{index}}">{{item.name}}</iron-label>
+        			<div tabindex="6" aria-live="assertive" aria-relevant="additions removals" on-focus="browsing">
+        				<iron-label class="user" id="user{{index}}" on-focus="browsing">{{item.name}}</iron-label>
         			</div>
         		</template>
         	</template>
-        	<div class="controls" style="display: none;">
+        	<div class="controls">
 		        <div id="soundConfigArea" class="configControls">	
-	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig" tabindex="7">{{localization.labelSystemToggle}} ({{labelSystemStatus}})</paper-toggle-button>
+	            	<paper-toggle-button on-change="changeSystemSoundConfiguration" id="soundConfig" tabindex="7" on-focus="browsing">{{localization.labelSystemToggle}} ({{labelSystemStatus}})</paper-toggle-button>
 		        </div>
-		        <div class="configControls">
-		           	<paper-toggle-button id="connectConfig" on-change="changeLabelConnectStatus" tabindex="8">{{localization.labelConnectionToggle}} ({{labelConnectStatus}})</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localization.labelConnectionMenu}}">
-						<paper-listbox class="dropdown-content" selected="0" tabindex="9">
-		   					<paper-item value="connect">Connect</paper-item>
-		   					<paper-item value="sendMessage">Send Message</paper-item>
-		   					<paper-item value="typing">Typing</paper-item>
-		   				</paper-listbox>
-		   			</paper-dropdown-menu>
-		    	</div>
-		        <div class="configControls">
-		           	<paper-toggle-button id="messageConfig" on-change="changeLabelMessageStatus" tabindex="10">{{localization.labelMessageToggle}} ({{labelMessageStatus}})</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="{{localization.labelMessageMenu}}">
-						<paper-listbox class="dropdown-content" selected="1" tabindex="11" >
-		   					<paper-item value="connect">Connect</paper-item>
-		   					<paper-item value="sendMessage">Send Message</paper-item>
-		   					<paper-item value="typing">Typing</paper-item>
-		   				</paper-listbox>
-		   			</paper-dropdown-menu>
-		    	</div>
-		    	<div class="configControls">
-		           	<paper-toggle-button id="typingConfig" on-change="changeLabelTypingStatus" tabindex="12">{{localization.labelTypingToggle}} ({{labelTypingStatus}})</paper-toggle-button>
-		           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="{{localization.labelTypingMenu}}">
-						<paper-listbox class="dropdown-content" selected="2"  tabindex="13">
-		   					<paper-item value="connect">Connect</paper-item>
-		   					<paper-item value="sendMessage">Send Message</paper-item>
-		   					<paper-item value="typing">Typing</paper-item>
-		   				</paper-listbox>
-		   			</paper-dropdown-menu>
+		        <div style="display: none;">
+			        <div class="configControls">
+			           	<paper-toggle-button id="connectConfig" on-change="changeLabelConnectStatus" tabindex="8">{{localization.labelConnectionToggle}} ({{labelConnectStatus}})</paper-toggle-button>
+			           	<paper-dropdown-menu on-iron-select="selectConnectSound" id="opstionsConnectSound" label="{{localization.labelConnectionMenu}}">
+							<paper-listbox class="dropdown-content" selected="0" tabindex="9">
+			   					<paper-item value="connect">Connect</paper-item>
+			   					<paper-item value="sendMessage">Send Message</paper-item>
+			   					<paper-item value="typing">Typing</paper-item>
+			   				</paper-listbox>
+			   			</paper-dropdown-menu>
+			    	</div>
+			        <div class="configControls">
+			           	<paper-toggle-button id="messageConfig" on-change="changeLabelMessageStatus" tabindex="10">{{localization.labelMessageToggle}} ({{labelMessageStatus}})</paper-toggle-button>
+			           	<paper-dropdown-menu on-iron-select="selectMesssgeSound" id="opstionsMessageSound" label="{{localization.labelMessageMenu}}">
+							<paper-listbox class="dropdown-content" selected="1" tabindex="11" >
+			   					<paper-item value="connect">Connect</paper-item>
+			   					<paper-item value="sendMessage">Send Message</paper-item>
+			   					<paper-item value="typing">Typing</paper-item>
+			   				</paper-listbox>
+			   			</paper-dropdown-menu>
+			    	</div>
+			    	<div class="configControls">
+			           	<paper-toggle-button id="typingConfig" on-change="changeLabelTypingStatus" tabindex="12">{{localization.labelTypingToggle}} ({{labelTypingStatus}})</paper-toggle-button>
+			           	<paper-dropdown-menu on-iron-select="selectTypingSound" id="opstionsTypingSound" label="{{localization.labelTypingMenu}}">
+							<paper-listbox class="dropdown-content" selected="2"  tabindex="13">
+			   					<paper-item value="connect">Connect</paper-item>
+			   					<paper-item value="sendMessage">Send Message</paper-item>
+			   					<paper-item value="typing">Typing</paper-item>
+			   				</paper-listbox>
+			   			</paper-dropdown-menu>
+			    	</div>
 		    	</div>
 	    	</div>
 	      </app-drawer>
@@ -117,7 +119,7 @@ limitations under the License.
 	      
 	      <div id="content" class="content">
 	      	  <template id="messageList" is="dom-repeat" items="{{messages}}" on-dom-change="updateScroll">
-		  	      <div id="message"  role="chat" aria-live="assertive" aria-relevant="additions" aria-atomic="false" tabindex="5">
+		  	      <div id="message"  role="chat" aria-live="assertive" aria-relevant="additions" aria-atomic="false" tabindex="5" on-focus="browsing">
 		  	      	<iron-label>
 		  	      		{{item.user}}: {{item.message}} - <time>{{item.time}}</time>
 		  	      		<iron-icon icon="icons:check"></iron-icon>

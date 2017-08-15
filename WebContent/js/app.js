@@ -67,6 +67,9 @@ app.directive('soundchatListener', ['$document','wsDocument', function($document
 		  soundChat.addEventListener("setSoundColor", function(e) {
 			  wsDocument.send("{'type':'SET_SOUND_COLOR','textMessage':'"+e.detail.message+"'}");
 		  });
+		  soundChat.addEventListener("browsing", function(e) {
+			  wsDocument.send("{'type':'BROWSING','name':'"+e.detail.name+"'}");
+		  });
 	  }
   };
 }]);

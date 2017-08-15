@@ -489,6 +489,10 @@ Polymer({
 		else{
 			return ptBr; 
 		} 
+	},
+	
+	browsing: function(){
+		this.fire("browsing", {name: this.$.inputName.value});
 	}
 	
  });
